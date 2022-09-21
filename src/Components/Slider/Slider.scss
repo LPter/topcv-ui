@@ -1,0 +1,19 @@
+@import '~bootstrap/scss/bootstrap';
+
+.slider-title {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+.slider-caption {
+    text-align: center;
+    font-size: 1.5rem;
+}
+
+.slider-img {
+    margin-top: 36px;
+    height: 327px;
+    width: 390px;
+    image-rendering: optimizeSpeed;
+}
