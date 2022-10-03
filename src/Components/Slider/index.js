@@ -1,10 +1,11 @@
 import './Slider.scss';
 import React from 'react';
 import { Carousel } from 'react-bootstrap';
+import './_bootrap.scss';
 
 function Slider() {
     return (
-        <Carousel variant="dark" fade>
+        <Carousel variant="dark" slide fade>
             <Carousel.Item interval={5000}>
                 <h4 className="slider-title">Công cụ viết CV đẹp Miễn phí</h4>
                 <p className="slider-caption">Nulla vitae elit libero, a pharetra augue mollis interdum.</p>

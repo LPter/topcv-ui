@@ -1,0 +1,99 @@
+.job-card__item {
+    width: 33.33%;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: -1px 1px 4px #0000000d;
+    margin: 6px 0;
+    padding: 16px;
+    transition: box-shadow 0.2s;
+    &-title {
+        display: flex;
+        align-items: center;
+        &__img {
+            align-items: center;
+            border: 0.25px solid #f7f7f7;
+            border-radius: 7px;
+            display: flex;
+            height: 48px;
+            width: 48px;
+
+            &-href {
+                height: 46px;
+                object-fit: contain;
+                width: 46px;
+            }
+        }
+
+        &__name {
+            box-sizing: border-box;
+            min-width: 250px;
+            min-height: 44px;
+            overflow: hidden;
+            padding-left: 12px;
+            padding-right: 39px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+
+            &-job {
+                margin-bottom: 3px;
+                width: 100%;
+                color: #4a4a4a;
+                font-weight: 600;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            &-company {
+                margin-bottom: 3px;
+                width: 100%;
+                color: #999;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+        }
+
+        &__like {
+            background: #fff 0 0 no-repeat padding-box;
+            border: 0.5px solid #d4d7da;
+            border-radius: 5px;
+            height: 24px;
+            width: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+
+    &-desc {
+        height: 20px;
+        margin-top: 8px;
+        &__salary {
+            border-radius: 5px;
+            box-sizing: border-box;
+            display: inline-block;
+            font-size: 12px;
+            letter-spacing: 0.6px;
+            line-height: 16px;
+            padding: 2px 9px;
+            background: #efefef;
+            color: #212f3f;
+            opacity: 0.8;
+            margin-right: 4px;
+        }
+
+        &__address {
+            background: #efefef;
+            border-radius: 5px;
+            box-sizing: border-box;
+            color: #212f3f;
+            display: inline-block;
+            font-size: 12px;
+            letter-spacing: 0.6px;
+            line-height: 16px;
+            opacity: 0.8;
+            padding: 2px 9px;
+        }
+    }
+}

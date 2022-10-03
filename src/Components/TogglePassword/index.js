@@ -6,13 +6,19 @@ import { useState } from 'react';
 
 const cx = classNames.bind(styles);
 
-function TogglePassword({ label, placeholder }) {
+function TogglePassword(props) {
     const [passwordType, setPasswordType] = useState('password');
     const [passwordInput, setPasswordInput] = useState('');
     const handlePasswordChange = (evnt) => {
         setPasswordInput(evnt.target.value);
     };
-    function togglePassword() {
+
+    // const functionHandler = (passwordInput) => {
+    //     props.passChildData = passwordInput;
+    // };
+
+    function togglePassword(evnt) {
+        evnt.preventDefault();
         if (passwordType === 'password') {
             setPasswordType('text');
             return;
@@ -22,7 +28,7 @@ function TogglePassword({ label, placeholder }) {
 
     return (
         <div className={cx('form-login__input-group')}>
-            <label className={cx('form-login__input-group__label')}>{label}</label>
+            <label className={cx('form-login__input-group__label')}>{props.label}</label>
             <div className={cx('form-login__input-group__fill')}>
                 <div className={cx('form-login__input-group__fill-icon')}>
                     <FontAwesomeIcon icon={faShield} />
@@ -32,9 +38,9 @@ function TogglePassword({ label, placeholder }) {
                     onChange={handlePasswordChange}
                     value={passwordInput}
                     className={cx('form-login__input-group__fill-control')}
-                    placeholder={placeholder}
+                    placeholder={props.placeholder}
                 />
-                <button className={cx('form-login__input-group__fill-toggle')} onClick={togglePassword}>
+                <button className={cx('form-login__input-group__fill-toggle')} onClick={(e) => togglePassword(e)}>
                     {passwordType === 'password' ? (
                         <FontAwesomeIcon icon={faEyeSlash} />
                     ) : (

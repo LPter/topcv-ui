@@ -75,13 +75,13 @@
                             outline: #6c757d;
                         }
 
-                        // &-toggle {
-                        //     background: transparent;
-                        //     border: none;
-                        //     color: #00b14f;
-                        //     height: 40px;
-                        //     padding-right: 12px;
-                        // }
+                        &-toggle {
+                            background: transparent;
+                            border: none;
+                            color: #00b14f;
+                            height: 40px;
+                            padding-right: 12px;
+                        }
                     }
                     &__button {
                         cursor: pointer;

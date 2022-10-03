@@ -3,11 +3,32 @@ import styles from './SignUpPage.module.scss';
 import Slider from '../../Components/Slider';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faUser } from '@fortawesome/free-solid-svg-icons';
-import TogglePassword from '../../Components/TogglePassword';
+import { useState } from 'react';
+import { faEye, faEyeSlash, faShield } from '@fortawesome/free-solid-svg-icons';
 
 const cx = classNames.bind(styles);
 
 function SignUpPage() {
+    const [passwordType, setPasswordType] = useState('password');
+    const [passwordInput, setPasswordInput] = useState('');
+    const [passwordInputAuth, setPasswordInputAuth] = useState('');
+    const handlePasswordChange = (evnt) => {
+        setPasswordInput(evnt.target.value);
+    };
+
+    const handlePasswordAuthChange = (evnt) => {
+        setPasswordInputAuth(evnt.target.value);
+    };
+
+    function togglePassword(evnt) {
+        evnt.preventDefault();
+        if (passwordType === 'password') {
+            setPasswordType('text');
+            return;
+        }
+        setPasswordType('password');
+    }
+
     return (
         <div className={cx('wrapper')}>
             <div className={cx('form')}>
@@ -51,7 +72,7 @@ function SignUpPage() {
                             </div>
                         </div>
 
-                        {/* <div className={cx('form-login__input-group')}>
+                        <div className={cx('form-login__input-group')}>
                             <label className={cx('form-login__input-group__label')}>Password</label>
                             <div className={cx('form-login__input-group__fill')}>
                                 <div className={cx('form-login__input-group__fill-icon')}>
@@ -72,11 +93,30 @@ function SignUpPage() {
                                     )}
                                 </button>
                             </div>
-                        </div> */}
+                        </div>
 
-                        <TogglePassword label="Mật khẩu" placeholder="Nhập mật khẩu" />
-
-                        <TogglePassword label="Xác nhận mật khẩu" placeholder="Nhập lại mật khẩu" />
+                        <div className={cx('form-login__input-group')}>
+                            <label className={cx('form-login__input-group__label')}>Xác nhận password</label>
+                            <div className={cx('form-login__input-group__fill')}>
+                                <div className={cx('form-login__input-group__fill-icon')}>
+                                    <FontAwesomeIcon icon={faShield} />
+                                </div>
+                                <input
+                                    type={passwordType}
+                                    onChange={handlePasswordAuthChange}
+                                    value={passwordInputAuth}
+                                    className={cx('form-login__input-group__fill-control')}
+                                    placeholder="Nhập lại mật khẩu"
+                                />
+                                <button className={cx('form-login__input-group__fill-toggle')} onClick={togglePassword}>
+                                    {passwordType === 'password' ? (
+                                        <FontAwesomeIcon icon={faEyeSlash} />
+                                    ) : (
+                                        <FontAwesomeIcon icon={faEye} />
+                                    )}
+                                </button>
+                            </div>
+                        </div>
 
                         <div className={cx('form-login__input-group')}>
                             <div className={cx('form-login__input-group__policy')}>
@@ -98,7 +138,7 @@ function SignUpPage() {
                 <div className={cx('form-auth')}>
                     <div>
                         <span>Bạn đã có tài khoản?</span>
-                        <a href="/" className={cx('form-auth__signup')}>
+                        <a href="http://localhost:3000/login" className={cx('form-auth__signup')}>
                             Đăng nhập ngay
                         </a>
                     </div>

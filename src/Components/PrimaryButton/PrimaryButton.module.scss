@@ -1,0 +1,20 @@
+.wrapper {
+    &-content {
+        display: inline-block;
+        height: 48px;
+        text-decoration: none;
+        background: #00b14f;
+        border: 1px solid #00b14f;
+        color: #fff;
+        border-radius: 5px;
+        font-weight: 600;
+        margin-right: 8px;
+        margin-top: 8px;
+        padding: 10px 16px;
+    }
+
+    &-content:hover {
+        color: #fff;
+        background-image: linear-gradient(rgba(0, 0, 0, 0.1) 0 0);
+    }
+}
