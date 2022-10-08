@@ -1,12 +1,41 @@
 import classNames from 'classnames/bind';
 import styles from './Header.module.scss';
-import useAuth from '../../../../hooks/useAuth.js';
+import { useNavigate } from 'react-router-dom';
+import { useContext, useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBell, faChevronCircleDown, faRightFromBracket, faUser } from '@fortawesome/free-solid-svg-icons';
+import AuthContext from '../../../../Auth/AuthProvider';
 
 const cx = classNames.bind(styles);
 
 function Header() {
-    const { auth } = useAuth();
-    console.log(auth);
+    const { auth, setAuth } = useContext(AuthContext);
+
+    const [showNotification, setShowNotification] = useState(false);
+    const [showToggleUser, setShowToggleUser] = useState(false);
+
+    const navigate = useNavigate();
+
+    function handleLoginUserBtn() {
+        navigate('/user');
+    }
+
+    function handleLoginCompanyBtn() {
+        navigate('/company');
+    }
+
+    function handleLogoutBtn() {
+        // if used in more components, this should be in context
+        // axios to /logout endpoint
+        setAuth({});
+        localStorage.removeItem('token');
+        navigate('/', { replace: true });
+    }
+
+    function handleUserProfileBtn() {
+        setShowToggleUser(!showToggleUser);
+        navigate('/user/profile');
+    }
 
     return (
         <header className={cx('wrapper')}>
@@ -41,16 +70,16 @@ function Header() {
                     </li>
                 </ul>
                 <ul className={cx('navbar-right')}>
-                    {auth.role === undefined && (
+                    {auth?.role === undefined && (
                         <>
                             <li className={cx('navbar-right__item')}>
-                                <a
-                                    href="http://localhost:3000/user"
+                                <button
+                                    onClick={handleLoginUserBtn}
                                     type="button"
                                     className={cx('navbar-right__item-buttonOutline')}
                                 >
                                     Đăng nhập
-                                </a>
+                                </button>
                             </li>
                             <li className={cx('navbar-right__item')}>
                                 <a
@@ -62,54 +91,146 @@ function Header() {
                                 </a>
                             </li>
                             <li className={cx('navbar-right__item')}>
-                                <a
-                                    href="http://localhost:3000/company"
+                                <button
+                                    onClick={handleLoginCompanyBtn}
                                     type="button"
                                     className={cx('navbar-right__item-buttonRecruit')}
                                 >
                                     Đăng tuyển dụng & Tìm hồ sơ
-                                </a>
+                                </button>
                             </li>
                         </>
                     )}
-                    {auth.role === 'user' && (
+                    {auth?.role === 'user' && (
                         <>
                             <li className={cx('navbar-right__item')}>
-                                <div className={cx('navbar-right__item-user')}>
-                                    {/* <a className={cx('navbar-right__item-user__href')}></a> */}
+                                <div className={cx('navbar-right__item-notification')}>
+                                    <button
+                                        className={cx('navbar-right__item-notification__icon')}
+                                        onClick={() => {
+                                            setShowNotification(!showNotification);
+                                        }}
+                                    >
+                                        <FontAwesomeIcon icon={faBell} />
+                                    </button>
+                                    {showNotification && (
+                                        <div className={cx('navbar-right__item-notification__click')}>
+                                            <ul className={cx('navbar-right__item-notification__click-item')}>
+                                                <span
+                                                    className={cx(
+                                                        'navbar-right__item-notification__click-item__content',
+                                                    )}
+                                                >
+                                                    Bạn không có thông báo nào!!
+                                                </span>
+                                            </ul>
+                                        </div>
+                                    )}
                                 </div>
-                                <div className={cx('navbar-right__item-hover')}></div>
+                            </li>
+                            <li className={cx('navbar-right__item')}>
+                                <div
+                                    className={cx('navbar-right__item-user')}
+                                    onClick={() => {
+                                        setShowToggleUser(!showToggleUser);
+                                    }}
+                                >
+                                    <div className={cx('navbar-right__item-user__btn')}>
+                                        <div className={cx('navbar-right__item-user__btn-avatar')}>
+                                            <img
+                                                alt="..."
+                                                src={auth.avatar}
+                                                className={cx('navbar-right__item-user__btn-avatar__img')}
+                                            ></img>
+                                        </div>
+                                        <div className={cx('navbar-right__item-user__btn-name')}>
+                                            <span>{auth.username}</span>
+                                        </div>
+                                        <div className={cx('navbar-right__item-user__btn-icon')}>
+                                            <FontAwesomeIcon icon={faChevronCircleDown} />
+                                        </div>
+                                    </div>
+                                </div>
+                                {showToggleUser && (
+                                    <div className={cx('navbar-right__item-hover')}>
+                                        <div className={cx('navbar-right__item-hover__wrapper')}>
+                                            <div className={cx('navbar-right__item-hover__wrapper-header')}>
+                                                <div className={cx('navbar-right__item-hover__wrapper-header__avatar')}>
+                                                    <img
+                                                        alt="..."
+                                                        src={auth.avatar}
+                                                        className={cx(
+                                                            'navbar-right__item-hover__wrapper-header__avatar-img',
+                                                        )}
+                                                    ></img>
+                                                </div>
+                                                <div className={cx('navbar-right__item-hover__wrapper-header__title')}>
+                                                    <div
+                                                        className={cx(
+                                                            'navbar-right__item-hover__wrapper-header__title-name',
+                                                        )}
+                                                    >
+                                                        {auth.username}
+                                                    </div>
+                                                    <div
+                                                        className={cx(
+                                                            'navbar-right__item-hover__wrapper-header__title-id',
+                                                        )}
+                                                    >
+                                                        MÃ ỨNG VIÊN: #{auth.id}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <ul className={cx('navbar-right__item-hover__wrapper-content')}>
+                                                <li
+                                                    className={cx('navbar-right__item-hover__wrapper-content__item')}
+                                                    onClick={handleUserProfileBtn}
+                                                >
+                                                    <FontAwesomeIcon
+                                                        className={cx(
+                                                            'navbar-right__item-hover__wrapper-content__item-logo',
+                                                        )}
+                                                        icon={faUser}
+                                                    />
+                                                    <span
+                                                        className={cx(
+                                                            'navbar-right__item-hover__wrapper-content__item-text',
+                                                        )}
+                                                    >
+                                                        Thông tin cá nhân
+                                                    </span>
+                                                </li>
+                                                <li
+                                                    className={cx('navbar-right__item-hover__wrapper-content__item')}
+                                                    onClick={handleLogoutBtn}
+                                                >
+                                                    <FontAwesomeIcon
+                                                        className={cx(
+                                                            'navbar-right__item-hover__wrapper-content__item-logo',
+                                                        )}
+                                                        icon={faRightFromBracket}
+                                                    />
+                                                    <span
+                                                        className={cx(
+                                                            'navbar-right__item-hover__wrapper-content__item-text',
+                                                        )}
+                                                    >
+                                                        Đăng xuất
+                                                    </span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                )}
                             </li>
                         </>
                     )}
-                    {auth.role === 'company' && (
+                    {auth?.role === 'company' && (
                         <>
                             <li className={cx('navbar-right__item')}>
-                                <a
-                                    href="http://localhost:3000/user"
-                                    type="button"
-                                    className={cx('navbar-right__item-buttonOutline')}
-                                >
-                                    Đăng nhập
-                                </a>
-                            </li>
-                            <li className={cx('navbar-right__item')}>
-                                <a
-                                    href="http://localhost:3000/sign-up"
-                                    type="button"
-                                    className={cx('navbar-right__item-buttonPrimary')}
-                                >
-                                    Đăng ký
-                                </a>
-                            </li>
-                            <li className={cx('navbar-right__item')}>
-                                <a
-                                    href="http://localhost:3000/company"
-                                    type="button"
-                                    className={cx('navbar-right__item-buttonRecruit')}
-                                >
-                                    Đăng tuyển dụng & Tìm hồ sơ
-                                </a>
+                                <button type="button" className={cx('navbar-right__item-buttonRecruit')}>
+                                    Đăng tuyển dụng
+                                </button>
                             </li>
                         </>
                     )}

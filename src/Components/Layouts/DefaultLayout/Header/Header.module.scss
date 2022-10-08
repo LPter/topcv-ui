@@ -44,9 +44,11 @@
         }
         &-right {
             display: flex;
+            align-items: center;
 
             &__item {
                 list-style-type: none;
+                margin-top: 14px;
 
                 &-buttonOutline {
                     display: block;
@@ -96,6 +98,170 @@
                     margin-right: 8px;
                     margin-top: 8px;
                     padding: 10px 16px;
+                }
+
+                &-buttonRecruit:hover {
+                    background-image: linear-gradient(rgba(0, 0, 0, 0.1) 0 0);
+                }
+
+                &-notification {
+                    position: relative;
+                    &__icon {
+                        margin: 15px 5px;
+                        font-weight: 400;
+                        font-size: 21px;
+                        background: #fafafa;
+                        border-radius: 50%;
+                        color: #00b14f;
+                        height: 42px;
+                        padding: 7px;
+                        text-align: center;
+                        width: 40px;
+                        border: none;
+                    }
+
+                    &__click {
+                        display: flex;
+                        margin-top: 25px;
+                        max-width: 320px;
+                        opacity: 1;
+                        right: 0;
+                        width: max-content;
+                        position: absolute;
+                        top: 50px;
+                        left: -188px;
+
+                        &-item {
+                            animation: fadein 0.4s;
+                            border-radius: 5px;
+                            box-shadow: 0 3px 6px #00000029;
+                            height: 42px;
+                            overflow: hidden;
+                            perspective: 1000px;
+                            top: 100%;
+                            z-index: 2;
+                            background: #fff;
+                            display: block;
+                            margin: 0;
+                            padding: 10px;
+                        }
+                    }
+                }
+
+                &-user {
+                    background: #fafafa;
+                    margin: 15px 5px 19px;
+                    padding-right: 22px;
+                    border-radius: 20px;
+                    cursor: pointer;
+                    &__btn {
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                        color: #333;
+                        font-size: 14px;
+                        font-weight: 600;
+                        padding: 8px;
+                        height: 42px;
+                        &-avatar {
+                            &__img {
+                                border-radius: 50%;
+                                height: 32px;
+                                margin: 5px 10px 5px 0;
+                                max-width: 100%;
+                                width: 32px;
+                                vertical-align: middle;
+                            }
+                        }
+                        &-name {
+                            color: #333;
+                            font-size: 14px;
+                            font-weight: 600;
+                            padding: 0 14px;
+                        }
+                        &-icon {
+                            color: #00b14f;
+                            margin-right: -20px;
+                            font-size: 16px;
+                        }
+                    }
+                }
+                &-hover {
+                    position: relative;
+                    width: max-content;
+                    height: max-content;
+                    max-width: 320px;
+                    opacity: 1;
+                    &__wrapper {
+                        position: absolute;
+                        top: 0px;
+                        left: -120px;
+                        right: -150px;
+                        animation: fadein 0.4s;
+                        border-radius: 5px;
+                        box-shadow: 0 3px 6px #00000029;
+                        overflow: hidden;
+                        perspective: 1000px;
+                        z-index: 2;
+                        background: #fff;
+                        display: block;
+                        margin: 0;
+                        padding: 10px;
+
+                        &-header {
+                            display: flex;
+                            align-items: center;
+                            padding: 6px;
+
+                            &__avatar {
+                                &-img {
+                                    border-radius: 50%;
+                                    height: 32px;
+                                    margin: 5px 10px 5px 0;
+                                    max-width: 100%;
+                                    width: 32px;
+                                    vertical-align: middle;
+                                }
+                            }
+                            &__title {
+                                &-name {
+                                    color: #00b14f;
+                                    font-size: 18px;
+                                    font-weight: 600;
+                                    padding: 0 14px;
+                                }
+                                &-id {
+                                    font-size: 10px;
+                                    font-weight: 300;
+                                }
+                            }
+                        }
+                        &-content {
+                            list-style-type: none;
+                            padding: 8px;
+                            &__item {
+                                display: flex;
+                                align-items: center;
+                                width: 100%;
+                                border-radius: 5px;
+                                background: #fafafa;
+                                font-size: 14px;
+                                padding-bottom: 14px;
+                                padding-top: 14px;
+                                margin-bottom: 5px;
+                                cursor: pointer;
+
+                                &-logo {
+                                    color: #00b14f;
+                                    padding-left: 16px;
+                                }
+
+                                &-text {
+                                    padding-left: 18px;
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }

@@ -1,18 +1,31 @@
-// import { Alert } from 'react-bootstrap';
 import { useLocation, Navigate, Outlet } from 'react-router-dom';
-import useAuth from '../hooks/useAuth';
+import AuthContext from './AuthProvider';
+import { useContext, useState, useEffect } from 'react';
+import { getCurrentUser } from '../Api/user-api';
 
 const RequireAuth = ({ allowedRole }) => {
-    const { auth } = useAuth();
+    const { auth, setAuth } = useContext(AuthContext);
     const location = useLocation();
-    // const authRole = auth.role;
+    const [state, setState] = useState(false);
+    useEffect(() => {
+        getCurrentUser()
+            .then((currentUser) => {
+                setAuth(currentUser);
+            })
+            .then(() => setState(true));
+    }, []);
 
-    return auth?.role === allowedRole ? (
-        <Outlet />
-    ) : auth?.emailInput ? (
-        <Navigate to="/unauthorized" state={{ from: location }} replace />
-    ) : (
-        <Navigate to="/login" state={{ from: location }} replace />
+    return (
+        <div>
+            {state &&
+                (auth?.role === allowedRole ? (
+                    <Outlet />
+                ) : auth?.access_token ? (
+                    <Navigate to="/unauthorized" state={{ from: location }} replace />
+                ) : (
+                    <Navigate to="/login" state={{ from: location }} replace />
+                ))}
+        </div>
     );
 };
 

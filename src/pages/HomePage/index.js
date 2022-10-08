@@ -5,16 +5,11 @@ import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import PrimaryButton from '../../Components/PrimaryButton';
 import { useState } from 'react';
 import JobCard from '../../Components/JobCard';
-import useAuth from '../../hooks/useAuth';
 
 const cx = classNames.bind(styles);
 
 function HomePage() {
     const [showSearchAdvance, setShowSearchAdvance] = useState(false);
-
-    const { auth } = useAuth();
-    console.log(auth);
-
     return (
         <div className={cx('wrapper')}>
             <div className={cx('search')}>

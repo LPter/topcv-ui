@@ -5,13 +5,30 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faUser } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
 import { faEye, faEyeSlash, faShield } from '@fortawesome/free-solid-svg-icons';
+import { handleSignUP } from '../../helpers/handle-signup';
+import { useNavigate } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
 function SignUpPage() {
     const [passwordType, setPasswordType] = useState('password');
+    const [passwordTypeAuth, setPasswordTypeAuth] = useState('password');
+
+    const [usernameInput, setUserNameInput] = useState('');
+    const [emailInput, setEmailInput] = useState('');
     const [passwordInput, setPasswordInput] = useState('');
     const [passwordInputAuth, setPasswordInputAuth] = useState('');
+
+    const navigate = useNavigate();
+
+    const handleUsernameChange = (evnt) => {
+        setUserNameInput(evnt.target.value);
+    };
+
+    const handleEmailChange = (evnt) => {
+        setEmailInput(evnt.target.value);
+    };
+
     const handlePasswordChange = (evnt) => {
         setPasswordInput(evnt.target.value);
     };
@@ -27,6 +44,20 @@ function SignUpPage() {
             return;
         }
         setPasswordType('password');
+    }
+
+    function togglePasswordAuth(evnt) {
+        evnt.preventDefault();
+        if (passwordTypeAuth === 'password') {
+            setPasswordTypeAuth('text');
+            return;
+        }
+        setPasswordTypeAuth('password');
+    }
+
+    function handleSubmit(e) {
+        e.preventDefault();
+        handleSignUP(usernameInput, emailInput, passwordInput, passwordInputAuth, navigate);
     }
 
     return (
@@ -45,16 +76,17 @@ function SignUpPage() {
                 </div>
 
                 <div className={cx('form-login')}>
-                    <form className={cx('form-login__input')}>
+                    <form onSubmit={handleSubmit} className={cx('form-login__input')}>
                         <div className={cx('form-login__input-group')}>
-                            <label className={cx('form-login__input-group__label')}>Họ và tên</label>
+                            <label className={cx('form-login__input-group__label')}>Username</label>
                             <div className={cx('form-login__input-group__fill')}>
                                 <div className={cx('form-login__input-group__fill-icon')}>
                                     <FontAwesomeIcon icon={faUser} />
                                 </div>
                                 <input
                                     className={cx('form-login__input-group__fill-control')}
-                                    placeholder="Nhập họ và tên của bạn"
+                                    placeholder="Nhập username của bạn"
+                                    onChange={handleUsernameChange}
                                 />
                             </div>
                         </div>
@@ -68,6 +100,7 @@ function SignUpPage() {
                                 <input
                                     className={cx('form-login__input-group__fill-control')}
                                     placeholder="Nhập email của bạn"
+                                    onChange={handleEmailChange}
                                 />
                             </div>
                         </div>
@@ -102,14 +135,17 @@ function SignUpPage() {
                                     <FontAwesomeIcon icon={faShield} />
                                 </div>
                                 <input
-                                    type={passwordType}
+                                    type={passwordTypeAuth}
                                     onChange={handlePasswordAuthChange}
                                     value={passwordInputAuth}
                                     className={cx('form-login__input-group__fill-control')}
                                     placeholder="Nhập lại mật khẩu"
                                 />
-                                <button className={cx('form-login__input-group__fill-toggle')} onClick={togglePassword}>
-                                    {passwordType === 'password' ? (
+                                <button
+                                    className={cx('form-login__input-group__fill-toggle')}
+                                    onClick={togglePasswordAuth}
+                                >
+                                    {passwordTypeAuth === 'password' ? (
                                         <FontAwesomeIcon icon={faEyeSlash} />
                                     ) : (
                                         <FontAwesomeIcon icon={faEye} />

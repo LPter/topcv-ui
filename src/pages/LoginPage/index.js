@@ -3,17 +3,19 @@ import Slider from '../../Components/Slider';
 import styles from './LoginPage.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
-import { faGoogle } from '@fortawesome/free-brands-svg-icons';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useContext } from 'react';
 import { faEye, faEyeSlash, faShield } from '@fortawesome/free-solid-svg-icons';
-import useAuth from '../../hooks/useAuth';
+import AuthContext from '../../Auth/AuthProvider';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { handleLogin } from '../../helpers/handle-login';
+import { GoogleLogin } from '@react-oauth/google';
+import jwt_decode from 'jwt-decode';
+import { loginOAuth, getCurrentUser, sendForgotPasswordMail } from '../../Api/user-api';
 
 const cx = classNames.bind(styles);
 
 function LoginPage() {
-    const { setAuth } = useAuth();
+    const { setAuth } = useContext(AuthContext);
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -23,6 +25,8 @@ function LoginPage() {
     const [passwordType, setPasswordType] = useState('password');
     const [emailInput, setEmailInput] = useState('');
     const [passwordInput, setPasswordInput] = useState('');
+    const [emailAuthInput, setEmailAuthInput] = useState('');
+    const [showForgotPassword, setShowForgotPassword] = useState(false);
 
     useEffect(() => {
         userRef.current.focus();
@@ -34,6 +38,10 @@ function LoginPage() {
 
     const handlePasswordChange = (evnt) => {
         setPasswordInput(evnt.target.value);
+    };
+
+    const handleEmailAuthChange = (evnt) => {
+        setEmailAuthInput(evnt.target.value);
     };
 
     function togglePassword(evnt) {
@@ -50,48 +58,10 @@ function LoginPage() {
         handleLogin(emailInput, passwordInput, setAuth, navigate, location);
     }
 
-    // const handleSubmit = async (e) => {
-    //     e.preventDefault();
-
-    //     try {
-    //         const response = await axios.post(
-    //             'http://localhost:8000/users/login',
-    //             {
-    //                 email: emailInput,
-    //                 password: passwordInput,
-    //             },
-    //             {
-    //                 headers: { 'Content-Type': 'application/json' },
-    //                 withCredentials: true,
-    //             },
-    //         );
-    //         console.log(JSON.stringify(response?.data));
-    //         localStorage.setItem('token', response.data.access_token);
-    //         // setAuth({ emailInput, passwordInput, roles, accessToken });
-    //         setEmailInput('');
-    //         setPasswordInput('');
-    //         navigate(from, { replace: true });
-    //     } catch (err) {
-    //         console.log(err);
-    //     }
-
-    //     try {
-    //         const response = await axios.get('http://localhost:8000/users/me', {
-    //             headers: {
-    //                 'Content-Type': 'application/json',
-    //                 Authorization: 'Bearer ' + localStorage.getItem('token'),
-    //             },
-    //             withCredentials: true,
-    //         });
-    //         const role = response?.data?.role;
-    //         setAuth({ emailInput, passwordInput, role });
-    //         // console.log(setAuth);
-    //         // console.log(response);
-    //         navigate(from, { replace: true });
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // };
+    function handleSubmitForgotPassword(e) {
+        e.preventDefault();
+        sendForgotPasswordMail(emailAuthInput).then((res) => res && alert('Mail sent successfully !!'));
+    }
 
     return (
         <>
@@ -163,10 +133,24 @@ function LoginPage() {
                             </div>
 
                             <div className={cx('form-login__input-option')}>
-                                <a type="button" href="/" className={cx('form-login__input-option__link')}>
-                                    <FontAwesomeIcon icon={faGoogle} />
-                                    <span>Google</span>
-                                </a>
+                                <GoogleLogin
+                                    onSuccess={({ credential }) => {
+                                        const user = jwt_decode(credential);
+                                        loginOAuth(user.email, user.given_name, user.picture).then((res) => {
+                                            if (res) {
+                                                getCurrentUser().then((currentUser) => {
+                                                    setAuth(currentUser);
+                                                    navigate('/user');
+                                                });
+                                            }
+                                        });
+                                    }}
+                                    onError={() => {
+                                        alert('Login Failed');
+                                    }}
+                                    useOneTap
+                                    logo_alignment="center"
+                                />
                             </div>
                         </form>
                     </div>
@@ -174,14 +158,50 @@ function LoginPage() {
                     <div className={cx('form-auth')}>
                         <div>
                             <span>Bạn chưa có tài khoản?</span>
-                            <a href="http://localhost:3001/sign-up" className={cx('form-auth__signup')}>
+                            <a href="http://localhost:3000/sign-up" className={cx('form-auth__signup')}>
                                 Đăng ký ngay
                             </a>
                         </div>
-                        <a href="/" className={cx('form-auth__forgotPassword')}>
+                        <button
+                            href="/"
+                            className={cx('form-auth__forgotPassword')}
+                            onClick={() => {
+                                setShowForgotPassword(!showForgotPassword);
+                            }}
+                        >
                             Quên mật khẩu
-                        </a>
+                        </button>
                     </div>
+
+                    {showForgotPassword && (
+                        <div className={cx('form-forgotPassword')}>
+                            <form onSubmit={handleSubmitForgotPassword} className={cx('form-forgotPassword__wrapper')}>
+                                <div className={cx('form-forgotPassword__wrapper-group')}>
+                                    <p>
+                                        Quên mật khẩu tài khoản của bạn? Nhập địa chỉ email của bạn và chúng tôi sẽ gửi
+                                        cho bạn liên kết khôi phục.
+                                    </p>
+                                    <label className={cx('form-forgotPassword__wrapper-group__label')}>Email</label>
+                                    <div className={cx('form-forgotPassword__wrapper-group__fill')}>
+                                        <div className={cx('form-forgotPassword__wrapper-group__fill-icon')}>
+                                            <FontAwesomeIcon icon={faEnvelope} />
+                                        </div>
+                                        <input
+                                            type="email"
+                                            className={cx('form-forgotPassword__wrapper-group__fill-control')}
+                                            placeholder="Nhập email xác thực của bạn"
+                                            value={emailAuthInput}
+                                            onChange={handleEmailAuthChange}
+                                            required
+                                        />
+                                    </div>
+                                </div>
+                                <div className={cx('form-forgotPassword__wrapper-group')}>
+                                    <button className={cx('form-forgotPassword__wrapper-group__button')}>Submit</button>
+                                </div>
+                            </form>
+                        </div>
+                    )}
 
                     <div className={cx('form-contact')}>
                         <p className={cx('form-contact__text')}>Bạn gặp khó khăn khi tạo tài khoản?</p>

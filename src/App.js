@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import { DefaultLayout } from './Components/Layouts';
 import RequireAuth from './Auth/RequireAuth';
 import AdminPage from './pages/AdminPage';
@@ -10,74 +10,93 @@ import SignUpPage from './pages/SignUpPage';
 import JobDetailPage from './pages/JobDetailPage';
 import SearchPage from './pages/SearchPage';
 import Unauthorized from './pages/Unauthorized';
+import UserProfilePage from './pages/UserProfilePage';
+import React from 'react';
+// import PersistentAuth from './Auth/PersistentAuth';
+// import { getCurrentUser } from './Api/user-api';
+// import { useContext, useEffect } from 'react';
+// import AuthContext from './Auth/AuthProvider';
 
 function App() {
+    // const { auth, setAuth } = useContext(AuthContext);
+    // useEffect(() => {
+    //     getCurrentUser().then((currentUser) => {
+    //         setAuth(currentUser);
+    //         console.log(auth);
+    //     });
+    // }, []);
     return (
-        <Router>
-            <div className="App">
-                {/* public routes */}
-                <Routes>
+        <React.Fragment>
+            {/* public routes */}
+            <Routes>
+                <Route
+                    path="/"
+                    element={
+                        <DefaultLayout>
+                            <Home />
+                        </DefaultLayout>
+                    }
+                />
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/sign-up" element={<SignUpPage />} />
+                <Route path="/unauthorized" element={<Unauthorized />} />
+                <Route
+                    path="/job-detail"
+                    element={
+                        <DefaultLayout>
+                            <JobDetailPage />
+                        </DefaultLayout>
+                    }
+                />
+                <Route
+                    path="/search"
+                    element={
+                        <DefaultLayout>
+                            <SearchPage />
+                        </DefaultLayout>
+                    }
+                />
+                {/* private routes */}
+                <Route element={<RequireAuth allowedRole="admin" />}>
                     <Route
-                        path="/"
+                        path="/admin"
                         element={
                             <DefaultLayout>
-                                <Home />
+                                <AdminPage />
                             </DefaultLayout>
                         }
                     />
-                    <Route path="/login" element={<LoginPage />} />
-                    <Route path="/sign-up" element={<SignUpPage />} />
-                    <Route path="/unauthorized" element={<Unauthorized />} />
+                </Route>
+                <Route element={<RequireAuth allowedRole="user" />}>
                     <Route
-                        path="/job-detail"
+                        path="/user"
                         element={
                             <DefaultLayout>
-                                <JobDetailPage />
+                                <UserPage />
                             </DefaultLayout>
                         }
                     />
                     <Route
-                        path="/search"
+                        path="/user/profile"
                         element={
                             <DefaultLayout>
-                                <SearchPage />
+                                <UserProfilePage />
                             </DefaultLayout>
                         }
                     />
-                    {/* private routes */}
-                    <Route element={<RequireAuth allowedRole="admin" />}>
-                        <Route
-                            path="/admin"
-                            element={
-                                <DefaultLayout>
-                                    <AdminPage />
-                                </DefaultLayout>
-                            }
-                        />
-                    </Route>
-                    <Route element={<RequireAuth allowedRole="user" />}>
-                        <Route
-                            path="/user"
-                            element={
-                                <DefaultLayout>
-                                    <UserPage />
-                                </DefaultLayout>
-                            }
-                        />
-                    </Route>
-                    <Route element={<RequireAuth allowedRole="company" />}>
-                        <Route
-                            path="/company"
-                            element={
-                                <DefaultLayout>
-                                    <CompanyPage />
-                                </DefaultLayout>
-                            }
-                        />
-                    </Route>
-                </Routes>
-            </div>
-        </Router>
+                </Route>
+                <Route element={<RequireAuth allowedRole="company" />}>
+                    <Route
+                        path="/company"
+                        element={
+                            <DefaultLayout>
+                                <CompanyPage />
+                            </DefaultLayout>
+                        }
+                    />
+                </Route>
+            </Routes>
+        </React.Fragment>
     );
 }
 
