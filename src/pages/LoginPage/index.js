@@ -15,7 +15,7 @@ import { loginOAuth, getCurrentUser, sendForgotPasswordMail } from '../../Api/us
 const cx = classNames.bind(styles);
 
 function LoginPage() {
-    const { setAuth } = useContext(AuthContext);
+    const { auth, setAuth } = useContext(AuthContext);
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -140,7 +140,11 @@ function LoginPage() {
                                             if (res) {
                                                 getCurrentUser().then((currentUser) => {
                                                     setAuth(currentUser);
-                                                    navigate('/user');
+                                                    if (auth?.role === 'admin') {
+                                                        navigate('/admin');
+                                                    } else {
+                                                        navigate('/');
+                                                    }
                                                 });
                                             }
                                         });

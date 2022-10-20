@@ -2,16 +2,47 @@ import { faClock, faHeart, faPaperPlane } from '@fortawesome/free-regular-svg-ic
 import { faUpload, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames/bind';
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import styles from './JobDetailPage.module.scss';
+import { getJob, upLoadCV } from '../../Api/job-api';
+import { useNavigate, useParams } from 'react-router-dom';
+import AuthContext from '../../Auth/AuthProvider';
 
 const cx = classNames.bind(styles);
 
 function JobDetailPage() {
+    const { auth } = useContext(AuthContext);
+
+    const navigate = useNavigate();
+
     const [activeTab, setActiveTab] = useState(true);
     const [cv, setCv] = useState(null);
     const [showUpLoadForm, setShowUpLoadForm] = useState(false);
     const [showUpLoad, setShowUpLoad] = useState(false);
+    const [job, setJob] = useState({});
+
+    const { jobId } = useParams();
+
+    useEffect(() => {
+        getJob(jobId).then((res) => {
+            if (res) {
+                setJob(res);
+            }
+        });
+    }, []);
+
+    function handleSubmit() {
+        if (auth?.role === 'user') {
+            upLoadCV(jobId, cv).then((res) => {
+                if (res) {
+                    alert('Upload CV thành công!! Vui lòng chờ phản hồi từ phía công ty');
+                }
+            });
+        } else {
+            navigate('/login');
+            alert('Bạn không phải người dùng nên ko thể ứng tuyển!! Vui lòng đăng nhập lại.');
+        }
+    }
 
     return (
         <>
@@ -21,21 +52,17 @@ function JobDetailPage() {
                         <div className={cx('header-container__logo')}>
                             <img
                                 className={cx('header-container__logo-img')}
-                                src="https://cdn.topcv.vn/80/company_logos/cong-ty-mylife-company-5fe45369490b5.jpg"
-                                alt="CÔNG TY TNHH THƯƠNG MẠI VÀ DỊCH VỤ CUỘC SỐNG CỦA TÔI"
+                                src={job?.company?.user?.avatar}
+                                alt="avatar"
                             ></img>
                         </div>
 
                         <div className={cx('header-container__info')}>
-                            <h1 className={cx('header-container__info-title')}>
-                                Giám sát nhà hàng (Quản lý nhà hàng) - upto 25 triệu
-                            </h1>
-                            <div className={cx('header-container__info-company')}>
-                                CÔNG TY TNHH VÀ DỊCH VỤ CUỘC SỐNG CỦA TÔI
-                            </div>
+                            <h1 className={cx('header-container__info-title')}>{job?.name}</h1>
+                            <div className={cx('header-container__info-company')}>{job?.company?.name}</div>
                             <div className={cx('header-container__info-deadline')}>
                                 <FontAwesomeIcon icon={faClock} />
-                                Hạn nộp hồ sơ: 31/10/2022
+                                Hạn nộp hồ sơ: {job?.expired?.slice(0, 10)}
                             </div>
                         </div>
 
@@ -54,7 +81,7 @@ function JobDetailPage() {
                             </button>
                             <button className={cx('header-container__apply-save')}>
                                 <FontAwesomeIcon icon={faHeart} className={cx('header-container__apply-save__icon')} />
-                                <span className={cx('header-container__apply-save__text')}>Lưu tin</span>
+                                <span className={cx('header-container__apply-save__text')}>Theo dõi công ty</span>
                             </button>
                         </div>
                     </div>
@@ -143,7 +170,7 @@ function JobDetailPage() {
                                             <div>
                                                 <strong>Mức lương</strong>
                                                 <br></br>
-                                                <span>10-25 triệu</span>
+                                                <span>{job?.salary}</span>
                                             </div>
                                         </div>
                                         <div className={cx('recruit-container__generalInfo-wrapper__box-item')}>
@@ -154,7 +181,7 @@ function JobDetailPage() {
                                             ></img>
                                             <div>
                                                 <strong>Số lượng tuyển</strong> <br></br>
-                                                <span>8 người</span>
+                                                <span>{job?.recruitQuantity}</span>
                                             </div>
                                         </div>
                                         <div className={cx('recruit-container__generalInfo-wrapper__box-item')}>
@@ -166,7 +193,7 @@ function JobDetailPage() {
                                             <div>
                                                 <strong>Hình thức làm việc</strong>
                                                 <br></br>
-                                                <span>Toàn thời gian</span>
+                                                <span>{job?.workFormat}</span>
                                             </div>
                                         </div>
                                         <div className={cx('recruit-container__generalInfo-wrapper__box-item')}>
@@ -178,7 +205,7 @@ function JobDetailPage() {
                                             <div>
                                                 <strong>Cấp bậc</strong>
                                                 <br></br>
-                                                <span>Quản lý/Giám sát</span>
+                                                <span>{job?.level}</span>
                                             </div>
                                         </div>
                                         <div className={cx('recruit-container__generalInfo-wrapper__box-item')}>
@@ -190,7 +217,7 @@ function JobDetailPage() {
                                             <div>
                                                 <strong>Giới tính</strong>
                                                 <br></br>
-                                                <span>Không yêu cầu</span>
+                                                <span>{job?.gender}</span>
                                             </div>
                                         </div>
                                         <div className={cx('recruit-container__generalInfo-wrapper__box-item')}>
@@ -202,7 +229,7 @@ function JobDetailPage() {
                                             <div>
                                                 <strong>Kinh nghiệm</strong>
                                                 <br></br>
-                                                <span>1 năm</span>
+                                                <span>{job?.experience}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -213,15 +240,7 @@ function JobDetailPage() {
                                 <div className={cx('recruit-container__address-wrapper')}>
                                     <p className={cx('recruit-container__address-wrapper__text')}>Địa điểm làm việc</p>
                                     <div>
-                                        <div style={{ marginBottom: '10px' }}>
-                                            - Hồ Chí Minh: 47-49 Trần Ngọc Diện, Thảo Điền, Quận 2
-                                        </div>
-                                        <div style={{ marginBottom: '10px' }}>
-                                            - Hồ Chí Minh: 123 Bà Huyện Thanh Quan, P. Võ Thị Sáu, Quận 3
-                                        </div>
-                                        <div style={{ marginBottom: '10px' }}>
-                                            - Hồ Chí Minh: 4 Alexandre de Rhodes, Bến Nghé, Quận 1
-                                        </div>
+                                        <div style={{ marginBottom: '10px' }}>{job?.company?.address}</div>
                                     </div>
                                 </div>
                             </div>
@@ -230,9 +249,7 @@ function JobDetailPage() {
                     <div id="company" className={cx('company')}>
                         <div className={cx('company-container')}>
                             <div className={cx('company-container__title')}>
-                                <h2 className={cx('company-container__title-text')}>
-                                    Thông tin CÔNG TY TNHH QUỐC TẾ SƠN HÀ
-                                </h2>
+                                <h2 className={cx('company-container__title-text')}>Thông tin {job?.company?.name}</h2>
                             </div>
                             <div className={cx('company-container__info')}>
                                 <div className={cx('company-container__info-item')}>
@@ -244,30 +261,7 @@ function JobDetailPage() {
                                     <div>
                                         <p className={cx('company-container__info-item__title')}>Giới thiệu</p>
                                         <span>
-                                            <p>Giới thiệu sơ bộ về SHC Group - Tập Đoàn Sơn Hà</p>
-                                            <p>Tập Đoàn Sơn Hà bao gồm 3 công ty con:</p>
-                                            <p>
-                                                Công ty TNHH Đầu tư phát triển quốc tế Sơn Hà: được thành lập đầu tiên
-                                                trong khối SHC từ năm 2013 đến nay trải qua gần 10 năm xây dựng và phát
-                                                triển hiện tại Sơn Hà đang là công ty hàng đầu trong việc cung cấp các
-                                                mặt hàng khoáng sản trong nước. Phục vụ các ngành xây dựng, thực ăn chăn
-                                                nuôi, thủy sản, vv.....
-                                            </p>
-                                            <p>
-                                                Công ty TNHH Khoáng Sản Sơn Hà 18: Với sự phát triển vượt bậc về tiêu
-                                                thụ sản lượng của Công ty Sơn Hà. SHC Group đầu tư kinh phí lớn xây dựng
-                                                Nhà máy với dây chuyền khép kín, máy móc hiện đại bậc nhất tại chuyên
-                                                cung cấp các mặt hàng khoáng sản phục vụ cho trong nước và xuất khẩu.
-                                                Nhà máy đặt tại Kim Bảng, Hà Nam
-                                            </p>
-                                            <p>
-                                                Công ty TNHH Khoáng Sản Công Nghệ Việt Nam: Công ty được thành lập sau
-                                                cùng, thành lập năm 2019 chuyên về kinh doanh mặt hàng xuất khẩu đi các
-                                                nước Mỹ, Ấn Độ, Nhật vv.... Mặc dù thành lập sau cũng tuy nhiên hiện tại
-                                                Công ty Khoáng Sản Công Nghệ đang có doanh thu vượt bậc và đáng kinh
-                                                ngạc nhất. Hiện tại công ty đã Cổ phần thành công và đổi tên thành Công
-                                                ty Cổ Phần Khoáng Sản Công Nghệ Việt Nam
-                                            </p>
+                                            {job?.company?.introduction}
                                             <p>&nbsp;</p>
                                         </span>
                                     </div>
@@ -281,7 +275,7 @@ function JobDetailPage() {
                                     ></img>
                                     <div>
                                         <p className={cx('company-container__info-item__title')}>Quy mô</p>
-                                        <span>25-99 nhân viên</span>
+                                        <span>{job?.company?.employeeNumber}</span>
                                     </div>
                                 </div>
                                 <div className={cx('company-container__info-item')}>
@@ -292,7 +286,7 @@ function JobDetailPage() {
                                     ></img>
                                     <div>
                                         <p className={cx('company-container__info-item__title')}>Địa điểm</p>
-                                        <span>Số 1 ngõ 75 Trần Quang Diệu, P Ô Chợ Dừa, Đống Đa, Hà Nội</span>
+                                        <span>{job?.company?.address}</span>
                                     </div>
                                 </div>
                             </div>
@@ -306,8 +300,7 @@ function JobDetailPage() {
                         <div className={cx('upload-dialog__container')}>
                             <div className={cx('upload-dialog__container-header')}>
                                 <h4 className={cx('upload-dialog__container-header__title')}>
-                                    Ứng tuyển nhân viên tư vấn chăm sóc khách hàng (thu nhập lên đến 20 triệu đồng
-                                    tháng)
+                                    Ứng tuyển {job?.name} (thu nhập lên đến {job?.salary})
                                 </h4>
                                 <button
                                     className={cx('upload-dialog__container-header__close')}
@@ -341,8 +334,20 @@ function JobDetailPage() {
                                 </div>
                             </div>
                             <div className={cx('upload-dialog__container-btn')}>
-                                <button className={cx('upload-dialog__container-btn__closeBtn')}>Đóng lại</button>
-                                <button className={cx('upload-dialog__container-btn__submitBtn')}>Nộp cv</button>
+                                <button
+                                    className={cx('upload-dialog__container-btn__closeBtn')}
+                                    onClick={() => {
+                                        setShowUpLoad(!showUpLoad);
+                                    }}
+                                >
+                                    Đóng lại
+                                </button>
+                                <button
+                                    className={cx('upload-dialog__container-btn__submitBtn')}
+                                    onClick={handleSubmit}
+                                >
+                                    Nộp cv
+                                </button>
                             </div>
                         </div>
                         <div className={cx('upload-dialog__chosse-cv-overlay')}></div>

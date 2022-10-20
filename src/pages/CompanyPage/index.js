@@ -1,10 +1,7 @@
-import { useContext } from 'react';
-import AuthContext from '../../Auth/AuthProvider';
+import HomePage from '../HomePage';
 
 function CompanyPage() {
-    const { auth } = useContext(AuthContext);
-    console.log(auth);
-    return <h1>CompanyPage</h1>;
+    return <HomePage />;
 }
 
 export default CompanyPage;

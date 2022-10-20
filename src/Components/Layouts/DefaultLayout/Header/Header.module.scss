@@ -9,11 +9,12 @@
     border-bottom: #f2f2f2 solid 1px;
     display: flex;
     align-items: center;
-    z-index: 1;
+    z-index: 2;
 
     .header-logo {
         width: 10%;
         padding: 14px 0;
+        cursor: pointer;
         &__img {
             width: 120px;
             height: 50px;
@@ -62,6 +63,7 @@
                     margin-right: 8px;
                     margin-top: 8px;
                     padding: 10px 16px;
+                    margin-bottom: 10px;
                 }
 
                 &-buttonOutline:hover {
@@ -80,6 +82,7 @@
                     margin-right: 8px;
                     margin-top: 8px;
                     padding: 10px 16px;
+                    margin-bottom: 10px;
                 }
 
                 &-buttonPrimary:hover {
@@ -90,14 +93,15 @@
                     display: block;
                     height: 48px;
                     text-decoration: none;
-                    background: #212f3f;
-                    border: 1px solid #212f3f;
+                    background: #00b14f;
+                    border: 1px solid #00b14f;
                     color: #fff;
                     border-radius: 5px;
                     font-weight: 600;
-                    margin-right: 8px;
+                    margin-right: 60px;
                     margin-top: 8px;
                     padding: 10px 16px;
+                    margin-bottom: 10px;
                 }
 
                 &-buttonRecruit:hover {
@@ -105,6 +109,7 @@
                 }
 
                 &-notification {
+                    margin-left: 50px;
                     position: relative;
                     &__icon {
                         margin: 15px 5px;
@@ -123,27 +128,72 @@
                     &__click {
                         display: flex;
                         margin-top: 25px;
-                        max-width: 320px;
+                        width: 320px;
                         opacity: 1;
                         right: 0;
-                        width: max-content;
                         position: absolute;
                         top: 50px;
-                        left: -188px;
-
-                        &-item {
+                        left: -245px;
+                        &-wrapper {
                             animation: fadein 0.4s;
                             border-radius: 5px;
                             box-shadow: 0 3px 6px #00000029;
-                            height: 42px;
-                            overflow: hidden;
+                            height: 280px;
+                            width: 320px;
+                            overflow: auto;
                             perspective: 1000px;
                             top: 100%;
                             z-index: 2;
                             background: #fff;
-                            display: block;
                             margin: 0;
                             padding: 10px;
+                            display: block;
+
+                            &__nothing {
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                            }
+
+                            &__item {
+                                display: flex;
+                                align-items: center;
+                                background-color: #c1f9db;
+                                border-radius: 3px;
+                                padding: 8px;
+                                margin: 5px;
+                                &-avatar {
+                                    display: flex;
+                                    align-items: center;
+                                    font-size: 20px;
+
+                                    &__img {
+                                        width: 32px;
+                                        height: 32px;
+                                        border-radius: 50%;
+                                        object-fit: cover;
+                                        margin: 8px;
+                                    }
+                                }
+                                &-body {
+                                    font-size: 12px;
+                                    &__title {
+                                        font-weight: 600;
+                                        color: var(--primary-color);
+                                        margin: 0;
+                                    }
+                                    &__desc {
+                                        margin: 0;
+                                    }
+                                }
+                                &-close {
+                                    &__btn {
+                                        background-color: #c1f9db;
+                                        border: none;
+                                        color: var(--primary-color);
+                                    }
+                                }
+                            }
                         }
                     }
                 }

@@ -31,6 +31,15 @@ export const loginOAuth = async (email, username, avatar) => {
     }
 };
 
+export const getUsers = async (page, limit) => {
+    try {
+        const { data } = await axios.get(`http://localhost:8000/users?page=${page}&limit=${limit}`);
+        return data;
+    } catch (error) {
+        error.response.data?.message && alert(error.response.data?.message);
+    }
+};
+
 export const getUser = async (idUser) => {
     try {
         const { data } = await axios.get(`http://localhost:8000/users/${idUser}`);
@@ -102,6 +111,19 @@ export const sendForgotPasswordMail = async (forgotEmail) => {
 
     try {
         const { data } = await axios.post('http://localhost:8000/users/forgot', payload);
+        return data;
+    } catch (error) {
+        error.response.data?.message && alert(error.response.data?.message);
+    }
+};
+
+export const deleteUser = async (userId) => {
+    try {
+        const { data } = await axios.delete(`http://localhost:8000/users/${userId}`, {
+            headers: {
+                Authorization: 'Bearer ' + localStorage.getItem('token'),
+            },
+        });
         return data;
     } catch (error) {
         error.response.data?.message && alert(error.response.data?.message);

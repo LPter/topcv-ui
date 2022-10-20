@@ -1,15 +1,52 @@
 import classNames from 'classnames/bind';
 import styles from './HomePage.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { faAnglesLeft, faAnglesRight, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import PrimaryButton from '../../Components/PrimaryButton';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import JobCard from '../../Components/JobCard';
+import { getJobs } from '../../Api/job-api';
+import { useNavigate } from 'react-router-dom';
+import { getCurrentUser } from '../../Api/user-api';
 
 const cx = classNames.bind(styles);
 
 function HomePage() {
+    const navigate = useNavigate();
+
     const [showSearchAdvance, setShowSearchAdvance] = useState(false);
+
+    const [jobs, setJobs] = useState([]);
+    const [page, setPage] = useState(1);
+    const [search, setSearch] = useState('');
+
+    const [salary, setSalary] = useState('');
+    const [workFormat, setWorkFormat] = useState('');
+    const [level, setLevel] = useState('');
+    const [location, setLocation] = useState('');
+
+    const [currentUser, setCurrenUser] = useState({});
+
+    const limit = 9;
+
+    const searchApi = '';
+
+    useEffect(() => {
+        getCurrentUser().then((res) => {
+            if (res) {
+                setCurrenUser(res);
+            }
+        });
+    }, []);
+
+    useEffect(() => {
+        getJobs(page, limit, searchApi).then((res) => {
+            if (res) {
+                setJobs(res);
+            }
+        });
+    }, [page]);
+
     return (
         <div className={cx('wrapper')}>
             <div className={cx('search')}>
@@ -29,6 +66,9 @@ function HomePage() {
                                         placeholder="Tìm kiếm công việc, vị trí ..."
                                         onFocus={() => {
                                             setShowSearchAdvance(!showSearchAdvance);
+                                        }}
+                                        onChange={(e) => {
+                                            setSearch(e.target.value);
                                         }}
                                     ></input>
                                 </div>
@@ -50,114 +90,132 @@ function HomePage() {
                                             <div className={cx('search-advance__item')}>
                                                 <div className={cx('search-advance__item-left')}>
                                                     <select
-                                                        name="Ngành nghề"
+                                                        name="Mức lương"
                                                         className={cx('search-advance__item-select')}
+                                                        onChange={(e) => {
+                                                            setSalary(e.target.value);
+                                                        }}
                                                     >
-                                                        <option value>Ngành nghề</option>
-                                                        <option className={cx('search-advance__tiem-select__option')}>
-                                                            Lập trình viên
+                                                        <option value="">Mức lương</option>
+                                                        <option
+                                                            value="over30"
+                                                            className={cx('search-advance__tiem-select__option')}
+                                                        >
+                                                            Trên 30 triệu đồng/tháng
                                                         </option>
-                                                        <option className={cx('search-advance__tiem-select__option')}>
-                                                            Kế toán
+                                                        <option
+                                                            value="between15to30"
+                                                            className={cx('search-advance__tiem-select__option')}
+                                                        >
+                                                            Từ 15 đến 30 triệu đồng/tháng
                                                         </option>
-                                                        <option className={cx('search-advance__tiem-select__option')}>
-                                                            Sales
+                                                        <option
+                                                            value="between5to15"
+                                                            className={cx('search-advance__tiem-select__option')}
+                                                        >
+                                                            Từ 5 đến 15 triệu đồng/tháng
                                                         </option>
-                                                        <option className={cx('search-advance__tiem-select__option')}>
-                                                            Nhân viên bán hàng
+                                                        <option
+                                                            value="below_5"
+                                                            className={cx('search-advance__tiem-select__option')}
+                                                        >
+                                                            Dưới 5 triệu đồng/tháng
                                                         </option>
                                                     </select>
                                                     <select
-                                                        name="Ngành nghề"
+                                                        name="Hình thức làm việc"
                                                         className={cx('search-advance__item-select')}
+                                                        onChange={(e) => {
+                                                            setWorkFormat(e.target.value);
+                                                        }}
                                                     >
-                                                        <option value>Ngành nghề</option>
-                                                        <option className={cx('search-advance__tiem-select__option')}>
-                                                            Lập trình viên
+                                                        <option value="">Hình thức làm việc</option>
+                                                        <option
+                                                            value="intern"
+                                                            className={cx('search-advance__tiem-select__option')}
+                                                        >
+                                                            Thực tập sinh
                                                         </option>
-                                                        <option className={cx('search-advance__tiem-select__option')}>
-                                                            Kế toán
+                                                        <option
+                                                            value="full_time"
+                                                            className={cx('search-advance__tiem-select__option')}
+                                                        >
+                                                            Toàn thời gian
                                                         </option>
-                                                        <option className={cx('search-advance__tiem-select__option')}>
-                                                            Sales
-                                                        </option>
-                                                        <option className={cx('search-advance__tiem-select__option')}>
-                                                            Nhân viên bán hàng
-                                                        </option>
-                                                    </select>
-                                                    <select
-                                                        name="Ngành nghề"
-                                                        className={cx('search-advance__item-select')}
-                                                    >
-                                                        <option value>Ngành nghề</option>
-                                                        <option className={cx('search-advance__tiem-select__option')}>
-                                                            Lập trình viên
-                                                        </option>
-                                                        <option className={cx('search-advance__tiem-select__option')}>
-                                                            Kế toán
-                                                        </option>
-                                                        <option className={cx('search-advance__tiem-select__option')}>
-                                                            Sales
-                                                        </option>
-                                                        <option className={cx('search-advance__tiem-select__option')}>
-                                                            Nhân viên bán hàng
+                                                        <option
+                                                            value="part_time"
+                                                            className={cx('search-advance__tiem-select__option')}
+                                                        >
+                                                            Bán thời gian
                                                         </option>
                                                     </select>
                                                 </div>
 
                                                 <div className={cx('search-advance__item-right')}>
                                                     <select
-                                                        name="Ngành nghề"
+                                                        name="Cấp bậc"
                                                         className={cx('search-advance__item-select')}
+                                                        onChange={(e) => {
+                                                            setLevel(e.target.value);
+                                                        }}
                                                     >
-                                                        <option value>Ngành nghề</option>
-                                                        <option className={cx('search-advance__tiem-select__option')}>
-                                                            Lập trình viên
+                                                        <option value="">Cấp bậc</option>
+                                                        <option
+                                                            value="management"
+                                                            className={cx('search-advance__tiem-select__option')}
+                                                        >
+                                                            Quản lý
                                                         </option>
-                                                        <option className={cx('search-advance__tiem-select__option')}>
-                                                            Kế toán
+                                                        <option
+                                                            value="team_lead"
+                                                            className={cx('search-advance__tiem-select__option')}
+                                                        >
+                                                            Trưởng phòng
                                                         </option>
-                                                        <option className={cx('search-advance__tiem-select__option')}>
-                                                            Sales
+                                                        <option
+                                                            value="staff"
+                                                            className={cx('search-advance__tiem-select__option')}
+                                                        >
+                                                            Nhân viên
                                                         </option>
-                                                        <option className={cx('search-advance__tiem-select__option')}>
-                                                            Nhân viên bán hàng
+                                                        <option
+                                                            value="intern"
+                                                            className={cx('search-advance__tiem-select__option')}
+                                                        >
+                                                            Thực tập sinh
                                                         </option>
                                                     </select>
                                                     <select
-                                                        name="Ngành nghề"
+                                                        name="Khu vực"
                                                         className={cx('search-advance__item-select')}
+                                                        onChange={(e) => {
+                                                            setLocation(e.target.value);
+                                                        }}
                                                     >
-                                                        <option value>Ngành nghề</option>
-                                                        <option className={cx('search-advance__tiem-select__option')}>
-                                                            Lập trình viên
+                                                        <option value="">Khu vực</option>
+                                                        <option
+                                                            value="hanoi"
+                                                            className={cx('search-advance__tiem-select__option')}
+                                                        >
+                                                            Hà Nội
                                                         </option>
-                                                        <option className={cx('search-advance__tiem-select__option')}>
-                                                            Kế toán
+                                                        <option
+                                                            value="hcm"
+                                                            className={cx('search-advance__tiem-select__option')}
+                                                        >
+                                                            TP.Hồ Chí Minh
                                                         </option>
-                                                        <option className={cx('search-advance__tiem-select__option')}>
-                                                            Sales
+                                                        <option
+                                                            value="danang"
+                                                            className={cx('search-advance__tiem-select__option')}
+                                                        >
+                                                            Đà Nẵng
                                                         </option>
-                                                        <option className={cx('search-advance__tiem-select__option')}>
-                                                            Nhân viên bán hàng
-                                                        </option>
-                                                    </select>
-                                                    <select
-                                                        name="Ngành nghề"
-                                                        className={cx('search-advance__item-select')}
-                                                    >
-                                                        <option value>Ngành nghề</option>
-                                                        <option className={cx('search-advance__tiem-select__option')}>
-                                                            Lập trình viên
-                                                        </option>
-                                                        <option className={cx('search-advance__tiem-select__option')}>
-                                                            Kế toán
-                                                        </option>
-                                                        <option className={cx('search-advance__tiem-select__option')}>
-                                                            Sales
-                                                        </option>
-                                                        <option className={cx('search-advance__tiem-select__option')}>
-                                                            Nhân viên bán hàng
+                                                        <option
+                                                            value="another"
+                                                            className={cx('search-advance__tiem-select__option')}
+                                                        >
+                                                            Khác
                                                         </option>
                                                     </select>
                                                 </div>
@@ -168,7 +226,27 @@ function HomePage() {
                             </div>
 
                             <div className={cx('search-button')}>
-                                <PrimaryButton content="Tìm kiếm ngay" />
+                                <button
+                                    className={cx('search-button__btn')}
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        navigate(
+                                            `/search`,
+                                            {
+                                                state: {
+                                                    search: search,
+                                                    salary: salary,
+                                                    workFormat: workFormat,
+                                                    level: level,
+                                                    location: location,
+                                                },
+                                            },
+                                            { replace: true },
+                                        );
+                                    }}
+                                >
+                                    <PrimaryButton content="Tìm kiếm ngay" />
+                                </button>
                             </div>
                         </form>
                     </div>
@@ -240,49 +318,42 @@ function HomePage() {
             <div className={cx('job')}>
                 <div className={cx('job-container')}>
                     <div className={cx('job-container__wrapper')}>
-                        <JobCard
-                            hrefImg="https://cdn.topcv.vn/44/company_logos/ipLdRyrqGnZe4hPCzO2Lj2XPQdzAwp37_1657252043____0afea70639e77b459d5c6d08fe2159ed.png"
-                            job="Nhân viên kinh doanh"
-                            company="Công ty THNN MING"
-                            salary="2000 USD"
-                            address="Hà nội"
-                        />
-                        <JobCard
-                            hrefImg="https://cdn.topcv.vn/44/company_logos/ipLdRyrqGnZe4hPCzO2Lj2XPQdzAwp37_1657252043____0afea70639e77b459d5c6d08fe2159ed.png"
-                            job="Nhân viên kinh doanh"
-                            company="Công ty THNN MINGZOOOOO"
-                            salary="2000 USD"
-                            address="Hà nội"
-                        />
-                        <JobCard
-                            hrefImg="https://cdn.topcv.vn/44/company_logos/ipLdRyrqGnZe4hPCzO2Lj2XPQdzAwp37_1657252043____0afea70639e77b459d5c6d08fe2159ed.png"
-                            job="Nhân viên kinh doanh"
-                            company="Công ty THNN MINGZOOOOO"
-                            salary="2000 USD"
-                            address="Hà nội"
-                        />
-                        <JobCard
-                            hrefImg="https://cdn.topcv.vn/44/company_logos/ipLdRyrqGnZe4hPCzO2Lj2XPQdzAwp37_1657252043____0afea70639e77b459d5c6d08fe2159ed.png"
-                            job="Nhân viên kinh doanh"
-                            company="Công ty THNN MINGZOOOOO"
-                            salary="2000 USD"
-                            address="Hà nội"
-                        />
-                        <JobCard
-                            hrefImg="https://cdn.topcv.vn/44/company_logos/ipLdRyrqGnZe4hPCzO2Lj2XPQdzAwp37_1657252043____0afea70639e77b459d5c6d08fe2159ed.png"
-                            job="Nhân viên kinh doanh"
-                            company="Công ty THNN MINGZOOOOO"
-                            salary="2000 USD"
-                            address="Hà nội"
-                        />
-                        <JobCard
-                            hrefImg="https://cdn.topcv.vn/44/company_logos/ipLdRyrqGnZe4hPCzO2Lj2XPQdzAwp37_1657252043____0afea70639e77b459d5c6d08fe2159ed.png"
-                            job="Nhân viên kinh doanh"
-                            company="Công ty THNN MINGZOOOOO"
-                            salary="2000 USD"
-                            address="Hà nội"
-                        />
+                        {jobs.map((job, index) => (
+                            <JobCard
+                                key={index}
+                                id={job?.id}
+                                hrefImg={job?.company?.user?.avatar}
+                                job={job?.name}
+                                company={job?.company?.name}
+                                salary={job?.salary}
+                                address={job?.company?.address}
+                                idCompany={job?.company?.id}
+                                currentUser={currentUser}
+                            />
+                        ))}
                     </div>
+                </div>
+            </div>
+            <div className={cx('pagination')}>
+                <div className={cx('pagination-container')}>
+                    <button
+                        className={cx('pagination-container__btn')}
+                        onClick={(e) => {
+                            setPage(page - 1);
+                        }}
+                    >
+                        <FontAwesomeIcon icon={faAnglesLeft} />
+                        <span>Trang trước</span>
+                    </button>
+                    <button
+                        className={cx('pagination-container__btn')}
+                        onClick={() => {
+                            setPage(page + 1);
+                        }}
+                    >
+                        <span>Trang sau</span>
+                        <FontAwesomeIcon icon={faAnglesRight} />
+                    </button>
                 </div>
             </div>
         </div>

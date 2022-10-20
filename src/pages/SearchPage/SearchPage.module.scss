@@ -1,0 +1,65 @@
+.search {
+    background-color: #f4f4f4;
+    height: fit-content;
+    &-container {
+        width: 100%;
+
+        &__filter {
+            margin: 0 22rem;
+            padding-top: 10rem;
+            padding-bottom: 10rem;
+            display: flex;
+            padding: 12px;
+            &-item {
+                margin-right: 10px;
+                &__select {
+                    border: 1px solid #eee;
+                    height: 40px;
+                    margin-top: 8px;
+                    border-radius: 5px;
+                    outline: none;
+                    width: 209px;
+                }
+
+                &__select:hover {
+                    border: 1px solid #00b14f !important;
+                    transition: 0.4s;
+                }
+            }
+        }
+        &__jobs {
+            width: 100%;
+            &-wrapper {
+                margin: 5rem 22rem;
+                padding-top: 10rem;
+                padding-bottom: 10rem;
+                display: flex;
+                flex-wrap: wrap;
+                background-color: #fff;
+                padding: 12px;
+                border-radius: 10px;
+            }
+        }
+        .pagination {
+            margin: 2rem 22rem;
+            &-container {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                &__btn {
+                    border: none;
+                    border-radius: 5px;
+                    font-size: 18px;
+                    font-weight: 600;
+                    color: #70a157;
+                    background-color: #c9e4ce;
+                    margin: 10px;
+                }
+
+                &__btn:hover {
+                    background-image: linear-gradient(rgba(0, 0, 0, 0.1) 0 0);
+                }
+            }
+        }
+    }
+}
