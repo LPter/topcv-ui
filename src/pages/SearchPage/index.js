@@ -115,7 +115,9 @@ function SearchPage() {
                         <button
                             className={cx('pagination-container__btn')}
                             onClick={(e) => {
-                                setPage(page - 1);
+                                if (page > 1) {
+                                    setPage(page - 1);
+                                }
                             }}
                         >
                             <FontAwesomeIcon icon={faAnglesLeft} />
@@ -124,7 +126,9 @@ function SearchPage() {
                         <button
                             className={cx('pagination-container__btn')}
                             onClick={() => {
-                                setPage(page + 1);
+                                if (page < jobs.length / limit + 1) {
+                                    setPage(page + 1);
+                                }
                             }}
                         >
                             <span>Trang sau</span>

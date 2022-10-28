@@ -1,5 +1,5 @@
-import { faClock, faHeart, faPaperPlane } from '@fortawesome/free-regular-svg-icons';
-import { faUpload, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faClock, faPaperPlane } from '@fortawesome/free-regular-svg-icons';
+import { faComments, faUpload, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames/bind';
 import { useContext, useEffect, useState } from 'react';
@@ -79,9 +79,19 @@ function JobDetailPage() {
                                 />
                                 <span className={cx('header-container__apply-button__text')}>Ứng tuyển ngay</span>
                             </button>
-                            <button className={cx('header-container__apply-save')}>
-                                <FontAwesomeIcon icon={faHeart} className={cx('header-container__apply-save__icon')} />
-                                <span className={cx('header-container__apply-save__text')}>Theo dõi công ty</span>
+                            <button
+                                className={cx('header-container__apply-save')}
+                                onClick={() => {
+                                    navigate(`/user/chat/${auth?.id}`, {
+                                        state: { onID: job.company.user.id },
+                                    });
+                                }}
+                            >
+                                <FontAwesomeIcon
+                                    icon={faComments}
+                                    className={cx('header-container__apply-save__icon')}
+                                />
+                                <span className={cx('header-container__apply-save__text')}>Liên hệ với chúng tôi</span>
                             </button>
                         </div>
                     </div>

@@ -14,6 +14,8 @@ import React from 'react';
 import AdminPage from './pages/AdminPage';
 import CompanyDetailPage from './pages/CompanyDetailPage';
 import CreateJobPage from './pages/CreateJobPage';
+import ChatUserPage from './pages/ChatUserPage';
+import ChatCompanyPage from './pages/ChatCompanyPage';
 
 function App() {
     return (
@@ -57,6 +59,7 @@ function App() {
                     }
                 />
                 {/* private routes */}
+
                 <Route element={<RequireAuth allowedRole="admin" />}>
                     <Route
                         path="/admin"
@@ -84,6 +87,14 @@ function App() {
                             </DefaultLayout>
                         }
                     />
+                    <Route
+                        path="/user/chat/:id"
+                        element={
+                            <DefaultLayout>
+                                <ChatUserPage />
+                            </DefaultLayout>
+                        }
+                    />
                 </Route>
                 <Route element={<RequireAuth allowedRole="company" />}>
                     <Route
@@ -91,6 +102,14 @@ function App() {
                         element={
                             <DefaultLayout>
                                 <CompanyPage />
+                            </DefaultLayout>
+                        }
+                    />
+                    <Route
+                        path="/company/chat/:id"
+                        element={
+                            <DefaultLayout>
+                                <ChatCompanyPage />
                             </DefaultLayout>
                         }
                     />

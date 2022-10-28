@@ -11,17 +11,15 @@ const GOOGLE_CLIENT_ID = '108280594432-omqmp01tkniis47snett8h6ncajf3fsq.apps.goo
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <React.StrictMode>
-        <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
-            <AuthProvider>
-                <BrowserRouter>
-                    <GlobalStyles>
-                        <App />
-                    </GlobalStyles>
-                </BrowserRouter>
-            </AuthProvider>
-        </GoogleOAuthProvider>
-    </React.StrictMode>,
+    <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+        <AuthProvider>
+            <BrowserRouter>
+                <GlobalStyles>
+                    <App />
+                </GlobalStyles>
+            </BrowserRouter>
+        </AuthProvider>
+    </GoogleOAuthProvider>,
 );
 
 // If you want to start measuring performance in your app, pass a function

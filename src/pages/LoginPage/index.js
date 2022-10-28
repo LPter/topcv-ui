@@ -148,6 +148,7 @@ function LoginPage() {
                                                 });
                                             }
                                         });
+                                        console.log(user.picture);
                                     }}
                                     onError={() => {
                                         alert('Login Failed');

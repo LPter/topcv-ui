@@ -3,7 +3,7 @@ import styles from './Header.module.scss';
 import { useNavigate } from 'react-router-dom';
 import { useContext, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBell, faChevronCircleDown, faRightFromBracket, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faBell, faChevronCircleDown, faComments, faRightFromBracket, faUser } from '@fortawesome/free-solid-svg-icons';
 import AuthContext from '../../../../Auth/AuthProvider';
 import { deleteNotification, getNotification } from '../../../../Api/notification-api';
 import { faCircleXmark } from '@fortawesome/free-regular-svg-icons';
@@ -320,31 +320,18 @@ function Header() {
                                     Đăng tuyển dụng
                                 </button>
                             </li>
-                            {/* <li className={cx('navbar-right__item')}>
+                            <li className={cx('navbar-right__item')}>
                                 <div className={cx('navbar-right__item-notification')}>
                                     <button
                                         className={cx('navbar-right__item-notification__icon')}
                                         onClick={() => {
-                                            setShowNotification(!showNotification);
+                                            navigate(`/company/chat/${auth?.id}`);
                                         }}
                                     >
-                                        <FontAwesomeIcon icon={faBell} />
+                                        <FontAwesomeIcon icon={faComments} />
                                     </button>
-                                    {showNotification && (
-                                        <div className={cx('navbar-right__item-notification__click')}>
-                                            <ul className={cx('navbar-right__item-notification__click-item')}>
-                                                <span
-                                                    className={cx(
-                                                        'navbar-right__item-notification__click-item__content',
-                                                    )}
-                                                >
-                                                    Bạn không có thông báo nào!!
-                                                </span>
-                                            </ul>
-                                        </div>
-                                    )}
                                 </div>
-                            </li> */}
+                            </li>
                             <li className={cx('navbar-right__item')}>
                                 <div
                                     className={cx('navbar-right__item-user')}

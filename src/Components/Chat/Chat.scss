@@ -1,0 +1,153 @@
+.chat-window {
+    width: 700px;
+    border-radius: 6px;
+
+    .chat-header {
+        height: 45px;
+        border-radius: 6px 6px 0 0;
+        background: var(--primary-color);
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+
+        &__userBox {
+            &-img {
+                height: 35px;
+                width: 35px;
+                object-fit: cover;
+                border-radius: 50%;
+            }
+            &-username {
+                color: #fff;
+                font-weight: 700;
+                margin-left: 10px;
+            }
+        }
+
+        p {
+            display: block;
+            padding: 0 1em 0 2em;
+            color: #fff;
+            font-weight: 700;
+            line-height: 45px;
+            margin: 0 150px 0 0;
+        }
+    }
+
+    .chat-body {
+        background-image: url('http://candidate.topcvconnect.com/img/no-conversation.8966b27a.png');
+        background-color: #fff;
+        background-repeat: no-repeat;
+        background-position: center;
+        height: 385px;
+        border: 1px solid var(--primary-color);
+        position: relative;
+
+        .message-container {
+            width: 100%;
+            height: 100%;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .message {
+            height: auto;
+            padding: 10px;
+            display: flex;
+
+            .message-content {
+                width: auto;
+                height: auto;
+                min-height: 40px;
+                max-width: 300px;
+                background-color: #e4e6eb;
+                border-radius: 10px;
+                display: flex;
+                align-items: center;
+                margin-right: 5px;
+                margin-left: 5px;
+                padding-right: 20px;
+                padding-left: 20px;
+                overflow-wrap: break-word;
+                word-break: break-word;
+
+                p {
+                    color: #050505;
+                }
+            }
+
+            .message-meta {
+                display: flex;
+                font-size: 12px;
+
+                p:first-child {
+                    margin-right: 5px;
+                }
+            }
+        }
+
+        #you {
+            justify-content: flex-end;
+
+            .message-content {
+                justify-content: flex-end;
+                background-color: var(--primary-color);
+
+                p {
+                    color: #ffffff;
+                }
+            }
+        }
+
+        #other {
+            justify-content: flex-start;
+
+            .message-content {
+                justify-content: flex-start;
+            }
+
+            .message-meta {
+                justify-content: flex-start;
+                margin-left: 5px;
+            }
+        }
+    }
+
+    .chat-footer {
+        height: 40px;
+        border: 1px solid var(--primary-color);
+        border-top: none;
+        display: flex;
+        border-radius: 0 0 6px 6px;
+        background-color: #ffffff;
+
+        input {
+            flex: 85%;
+            border: 0;
+            padding: 0 0.7em;
+            font-size: 1em;
+            border-right: 1px solid var(--primary-color);
+            outline: none;
+            font-family: 'Open Sans', sans-serif;
+            border-top-left-radius: 10px;
+            border-bottom-left-radius: 10px;
+        }
+
+        button {
+            border: 0;
+            display: grid;
+            place-items: center;
+            cursor: pointer;
+            flex: 15%;
+            height: 100%;
+            background: transparent;
+            outline: none;
+            font-size: 25px;
+            color: lightgray;
+
+            &:hover {
+                color: var(--primary-color);
+            }
+        }
+    }
+}

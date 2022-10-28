@@ -1,17 +1,10 @@
 import classNames from 'classnames/bind';
 import styles from './JobCard.module.scss';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart } from '@fortawesome/free-regular-svg-icons';
-import { faHeart as faHeartSolid } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
-import { companyFollow, companyUnFollow } from '../../Api/company-api';
 
 const cx = classNames.bind(styles);
 
 function JobCard({ id, hrefImg, job, company, salary, address, idCompany, currentUser }) {
-    const [showIconFollowing, setShowIconFollowing] = useState(false);
-
     return (
         <div className={cx('job-card__item')}>
             <div className={cx('job-card__item-title')}>
@@ -32,7 +25,7 @@ function JobCard({ id, hrefImg, job, company, salary, address, idCompany, curren
                         {company}
                     </Link>
                 </div>
-                <button
+                {/* <button
                     className={cx('job-card__item-title__like')}
                     onClick={() => {
                         if (!showIconFollowing) {
@@ -57,7 +50,7 @@ function JobCard({ id, hrefImg, job, company, salary, address, idCompany, curren
                     ) : (
                         <FontAwesomeIcon icon={faHeart} />
                     )}
-                </button>
+                </button> */}
             </div>
             <div className={cx('job-card__item-desc')}>
                 <span className={cx('job-card__item-desc__salary')}>{salary}</span>
