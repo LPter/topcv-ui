@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export const getJobs = async (page, limit, search, salary, workFormat, level, location) => {
     try {
-        let query = `http://topcv-api.herokuapp.com/jobs?page=${page}&search=${search}&limit=${limit}`;
+        let query = `https://topcv-api.herokuapp.com/jobs?page=${page}&search=${search}&limit=${limit}`;
         if (salary) {
             query += `&salary=${salary}`;
         }
@@ -24,7 +24,7 @@ export const getJobs = async (page, limit, search, salary, workFormat, level, lo
 
 export const getJob = async (jobId) => {
     try {
-        const { data } = await axios.get(`http://topcv-api.herokuapp.com/jobs/${jobId}`);
+        const { data } = await axios.get(`https://topcv-api.herokuapp.com/jobs/${jobId}`);
         return data;
     } catch (error) {
         error.response.data?.message && alert(error.response.data?.message);
@@ -35,7 +35,7 @@ export const upLoadCV = async (jobId, cv) => {
     try {
         let data = new FormData();
         data.append('file', cv);
-        await axios.post(`http://topcv-api.herokuapp.com/jobs/upload-cv/${jobId}`, data, {
+        await axios.post(`https://topcv-api.herokuapp.com/jobs/upload-cv/${jobId}`, data, {
             headers: {
                 Authorization: 'Bearer ' + localStorage.getItem('token'),
             },
@@ -58,7 +58,7 @@ export const updateJob = async (id, name, expired, salary, recruitQuantity, work
         experience: experience,
     });
     try {
-        const { data } = await axios.put(`http://topcv-api.herokuapp.com/jobs/${id}`, payLoad, {
+        const { data } = await axios.put(`https://topcv-api.herokuapp.com/jobs/${id}`, payLoad, {
             headers: {
                 Authorization: 'Bearer ' + localStorage.getItem('token'),
             },
@@ -71,7 +71,7 @@ export const updateJob = async (id, name, expired, salary, recruitQuantity, work
 
 export const deleteJob = async (jobId) => {
     try {
-        const { data } = await axios.delete(`http://topcv-api.herokuapp.com/jobs/${jobId}`, {
+        const { data } = await axios.delete(`https://topcv-api.herokuapp.com/jobs/${jobId}`, {
             headers: {
                 Authorization: 'Bearer ' + localStorage.getItem('token'),
             },

@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export const getCompany = async (companyId) => {
     try {
-        const { data } = await axios.get(`http://topcv-api.herokuapp.com/companies/${companyId}`);
+        const { data } = await axios.get(`https://topcv-api.herokuapp.com/companies/${companyId}`);
         return data;
     } catch (error) {
         error.response.data?.message && alert(error.response.data?.message);
@@ -30,7 +30,7 @@ export const createCompany = async (
         location: location,
     });
     try {
-        const { data } = await axios.post(`http://topcv-api.herokuapp.com/companies`, payLoad, {
+        const { data } = await axios.post(`https://topcv-api.herokuapp.com/companies`, payLoad, {
             headers: {
                 Authorization: 'Bearer ' + localStorage.getItem('token'),
             },
@@ -43,7 +43,7 @@ export const createCompany = async (
 
 export const getCompanies = async (page, limit) => {
     try {
-        const { data } = await axios.get(`http://topcv-api.herokuapp.com/companies?page=${page}&limit=${limit}`);
+        const { data } = await axios.get(`https://topcv-api.herokuapp.com/companies?page=${page}&limit=${limit}`);
         return data;
     } catch (error) {
         error.response.data?.message && alert(error.response.data?.message);
@@ -60,7 +60,7 @@ export const updateCompany = async (id, name, website, employeeNumber, introduct
         location: location,
     });
     try {
-        const { data } = await axios.put(`http://topcv-api.herokuapp.com/companies/${id}`, payLoad, {
+        const { data } = await axios.put(`https://topcv-api.herokuapp.com/companies/${id}`, payLoad, {
             headers: {
                 Authorization: 'Bearer ' + localStorage.getItem('token'),
             },
@@ -73,7 +73,7 @@ export const updateCompany = async (id, name, website, employeeNumber, introduct
 
 export const deleteCompany = async (companyId) => {
     try {
-        const { data } = await axios.delete(`http://topcv-api.herokuapp.com/companies/${companyId}`, {
+        const { data } = await axios.delete(`https://topcv-api.herokuapp.com/companies/${companyId}`, {
             headers: {
                 Authorization: 'Bearer ' + localStorage.getItem('token'),
             },
@@ -96,7 +96,7 @@ export const createJob = async (name, expired, salary, recruitQuantity, workForm
         experience: experience,
     });
     try {
-        const { data } = await axios.post(`http://topcv-api.herokuapp.com/companies/jobs`, payLoad, {
+        const { data } = await axios.post(`https://topcv-api.herokuapp.com/companies/jobs`, payLoad, {
             headers: {
                 Authorization: 'Bearer ' + localStorage.getItem('token'),
             },
@@ -110,7 +110,7 @@ export const createJob = async (name, expired, salary, recruitQuantity, workForm
 export const companyFollow = async (companyId, currentUser) => {
     let payLoad = new URLSearchParams(currentUser);
     try {
-        const { data } = await axios.put(`http://topcv-api.herokuapp.com/companies/follow/${companyId}`, payLoad, {
+        const { data } = await axios.put(`https://topcv-api.herokuapp.com/companies/follow/${companyId}`, payLoad, {
             headers: {
                 Authorization: 'Bearer ' + localStorage.getItem('token'),
             },
@@ -124,7 +124,7 @@ export const companyFollow = async (companyId, currentUser) => {
 export const companyUnFollow = async (companyId, currentUser) => {
     let payLoad = new URLSearchParams(currentUser);
     try {
-        const { data } = await axios.put(`http://topcv-api.herokuapp.com/companies/unfollow/${companyId}`, payLoad, {
+        const { data } = await axios.put(`https://topcv-api.herokuapp.com/companies/unfollow/${companyId}`, payLoad, {
             headers: {
                 Authorization: 'Bearer ' + localStorage.getItem('token'),
             },
