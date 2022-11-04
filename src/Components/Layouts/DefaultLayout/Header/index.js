@@ -44,7 +44,7 @@ function Header() {
     return (
         <header className={cx('wrapper')}>
             <div className={cx('header-logo')}>
-                <a href="http://localhost:3000/">
+                <a href="https://topcv-clone.netlify.app/">
                     <img
                         className={cx('header-logo__img')}
                         src="https://www.topcv.vn/v3/images/topcv-logo-4.png?v=1.0.1"

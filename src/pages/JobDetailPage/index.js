@@ -347,7 +347,7 @@ function JobDetailPage() {
                                 <button
                                     className={cx('upload-dialog__container-btn__closeBtn')}
                                     onClick={() => {
-                                        setShowUpLoad(!showUpLoad);
+                                        setShowUpLoadForm(!showUpLoadForm);
                                     }}
                                 >
                                     Đóng lại
