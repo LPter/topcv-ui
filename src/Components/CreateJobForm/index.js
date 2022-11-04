@@ -47,7 +47,7 @@ function CreateJobForm({ id }) {
         ).then((res) => {
             if (res) {
                 navigate('/company');
-                alert('Tạo công ty thành công!!');
+                alert('Tạo công việc thành công!!');
             }
         });
     }

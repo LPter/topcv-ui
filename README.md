@@ -1,70 +1,43 @@
-# Getting Started with Create React App
+# TopCV UI Clone
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## [My Live Website](https://topcv-clone.netlify.app)
 
-## Available Scripts
+![Design preview](preview.png)
 
-In the project directory, you can run:
+# Welcome! 👋
 
-### `npm start`
+To run project run `npm start` then `react-scripts start`
+Require .env file with following format:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+PORT=
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Overview ✨
 
-### `npm test`
+### The Recruit Website
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Your users can be able to:
 
-### `npm run build`
+-   Signup Signin with web account or Google account (Forgot password with mail sending)
+-   Change information for user ( username, password, `upload avatar`, ... )
+-   Candidate can upload CV to employer (AWS S3 storage)
+-   Candidate can follow company to get the newest jobs (notification)
+-   Management jobs and cv for users with `company` role
+-   Admin page to manage for users with `admin` role
+-   **Bonus**: Live chat realtime between company and candidate (Socket)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+_Alert:_ No responsive (Best perform 1920x1080), Language supported only Vietnamese.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Technologies
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+-   Client: React, SocketClient
+-   Server: NestJS, Typescript, MySQL, Socket, AWS S3 [Server source](https://github.com/MingZoox/topcv_clone-api)
+-   Details in package.json file
 
-### `npm run eject`
+## Got feedback ?
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+It's just my simple and messy project I build in my free time to practice what i have learned.
+So i would very appreciate if you have any feedback.
+Please contact email lephucthiep2785@gmail.com
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+**Feel free to fork !** 🚀
+1
