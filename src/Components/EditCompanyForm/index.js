@@ -3,7 +3,6 @@ import { faBuilding, faUser } from '@fortawesome/free-solid-svg-icons';
 import { faPeopleGroup, faSortDesc, faAddressCard, faContactCard } from '@fortawesome/free-solid-svg-icons';
 import { updateCompany } from '../../Api/company-api';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import './EditCompanyForm.scss';
 
 function EditCompanyForm({
@@ -16,9 +15,9 @@ function EditCompanyForm({
     location,
     showAddRecordCompany,
     setShowAddRecordCompany,
+    modifyCompany,
+    setModifyCompany,
 }) {
-    const navigate = useNavigate();
-
     const [usernameInput, setUsernameInput] = useState(name);
     const [websiteInput, setWebsiteInput] = useState(website);
     const [employeeNumberInput, setEmployeeNumberInput] = useState(employeeNumber);
@@ -39,7 +38,7 @@ function EditCompanyForm({
                 locationInput,
             ).then((res) => {
                 if (res) {
-                    navigate('/admin');
+                    setModifyCompany(!modifyCompany);
                     alert('Chỉnh sửa công ty thành công!!');
                 }
             });

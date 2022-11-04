@@ -3,8 +3,6 @@ import classNames from 'classnames/bind';
 import { io } from 'socket.io-client';
 import ScrollToBottom from 'react-scroll-to-bottom';
 import Chat from '../../Components/Chat';
-import AuthContext from '../../Auth/AuthProvider';
-import { useContext } from 'react';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { getUsersSent, getMessagesToUserId } from '../../Api/message-api';
@@ -12,7 +10,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
-const socket = io.connect('https://topcv-api.herokuapp.com', {
+const socket = io.connect('http://localhost:8000', {
     extraHeaders: {
         authorization: 'Bearer ' + localStorage.getItem('token'),
     },
@@ -22,8 +20,6 @@ function ChatUserPage() {
     const emitID = useParams();
     const { state } = useLocation();
     const navigate = useNavigate();
-
-    const { auth } = useContext(AuthContext);
 
     const [usersSent, setUserSent] = useState([]);
     const [messageList, setMessageList] = useState([]);

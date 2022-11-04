@@ -41,7 +41,7 @@ function Chat({ from, to, socket, room, messageList, setMessageList }) {
     }, [room]);
 
     useEffect(() => {
-        socket.once('receive_message', (data) => {
+        socket.on('receive_message', (data) => {
             let message = { content: data, from: { id: to } };
             setMessageList((list) => [...list, message]);
         });

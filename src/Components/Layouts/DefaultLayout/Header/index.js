@@ -15,6 +15,7 @@ function Header() {
 
     const [showNotification, setShowNotification] = useState(false);
     const [showToggleUser, setShowToggleUser] = useState(false);
+    const [showToggleCompany, setShowToggleCompany] = useState(false);
 
     const [notifications, setNotifications] = useState([]);
 
@@ -33,6 +34,11 @@ function Header() {
     function handleUserProfileBtn() {
         setShowToggleUser(!showToggleUser);
         navigate('/user/profile');
+    }
+
+    function handleCompanyManagement() {
+        setShowToggleCompany(!showToggleCompany);
+        navigate(`/company/management/${auth?.id}`);
     }
 
     return (
@@ -336,7 +342,7 @@ function Header() {
                                 <div
                                     className={cx('navbar-right__item-user')}
                                     onClick={() => {
-                                        setShowToggleUser(!showToggleUser);
+                                        setShowToggleCompany(!showToggleCompany);
                                     }}
                                 >
                                     <div className={cx('navbar-right__item-user__btn')}>
@@ -355,7 +361,7 @@ function Header() {
                                         </div>
                                     </div>
                                 </div>
-                                {showToggleUser && (
+                                {showToggleCompany && (
                                     <div className={cx('navbar-right__item-hover')}>
                                         <div className={cx('navbar-right__item-hover__wrapper')}>
                                             <div className={cx('navbar-right__item-hover__wrapper-header')}>
@@ -386,6 +392,24 @@ function Header() {
                                                 </div>
                                             </div>
                                             <ul className={cx('navbar-right__item-hover__wrapper-content')}>
+                                                <li
+                                                    className={cx('navbar-right__item-hover__wrapper-content__item')}
+                                                    onClick={handleCompanyManagement}
+                                                >
+                                                    <FontAwesomeIcon
+                                                        className={cx(
+                                                            'navbar-right__item-hover__wrapper-content__item-logo',
+                                                        )}
+                                                        icon={faUser}
+                                                    />
+                                                    <span
+                                                        className={cx(
+                                                            'navbar-right__item-hover__wrapper-content__item-text',
+                                                        )}
+                                                    >
+                                                        Quản lý công việc
+                                                    </span>
+                                                </li>
                                                 <li
                                                     className={cx('navbar-right__item-hover__wrapper-content__item')}
                                                     onClick={handleLogoutBtn}
@@ -421,7 +445,7 @@ function Header() {
                                     type="button"
                                     className={cx('navbar-right__item-buttonRecruit')}
                                 >
-                                    Quyền Admin
+                                    Admin
                                 </button>
                             </li>
                             <li className={cx('navbar-right__item')}>

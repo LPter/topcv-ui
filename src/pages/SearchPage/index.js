@@ -40,6 +40,7 @@ function SearchPage() {
                             className={cx('search-container__filter-item__select')}
                             onChange={(e) => {
                                 setSalary(e.target.value);
+                                console.log(salary);
                             }}
                         >
                             <option value="over30">Mức lương</option>

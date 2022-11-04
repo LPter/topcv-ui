@@ -1,11 +1,12 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAddressBook, faBuilding, faPlus, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faAddressBook, faAddressCard, faBuilding, faPlus, faUser } from '@fortawesome/free-solid-svg-icons';
 import { faPenToSquare, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { useEffect, useState } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import { deleteJob, getJob, getJobs } from '../../Api/job-api';
 import { deleteUser, getUser, getUsers } from '../../Api/user-api';
 import { getCompanies, getCompany, deleteCompany } from '../../Api/company-api';
+import { deleteCV, getCVs } from '../../Api/cv-api';
 import './AdminPage.scss';
 import CreateCompanyForm from '../../Components/CreateCompanyForm';
 import EditCompanyForm from '../../Components/EditCompanyForm';
@@ -17,10 +18,17 @@ function AdminPage() {
     const [activeTabSidebar1, setActiveTabSidebar1] = useState(true);
     const [activeTabSidebar2, setActiveTabSidebar2] = useState(false);
     const [activeTabSidebar3, setActiveTabSidebar3] = useState(false);
+    const [activeTabSidebar4, setActiveTabSidebar4] = useState(false);
 
     const [jobsRows, setJobsRows] = useState([]);
     const [usersRows, setUsersRows] = useState([]);
     const [companiesRows, setCompaniesRows] = useState([]);
+    const [CVsRows, setCVsRows] = useState([]);
+
+    const [modifyJob, setModifyJob] = useState(false);
+    const [modifyUser, setModifyUser] = useState(false);
+    const [modifyCompany, setModifyCompany] = useState(false);
+    const [modifyCV, setModifyCV] = useState(false);
 
     const [showAddRecordUser, setShowAddRecordUser] = useState(false);
     const [showEditRecordUser, setShowEditRecordUser] = useState(false);
@@ -50,7 +58,7 @@ function AdminPage() {
         {
             field: 'username',
             headerName: 'TÊN NGƯỜI DÙNG',
-            width: 280,
+            width: 320,
             renderCell: (params) => {
                 return (
                     <div className="cellWithImg">
@@ -63,7 +71,7 @@ function AdminPage() {
         {
             field: 'email',
             headerName: 'EMAIL',
-            width: 280,
+            width: 320,
             renderCell: (params) => {
                 return (
                     <div className="cellWithCreatedAt">
@@ -75,7 +83,7 @@ function AdminPage() {
         {
             field: 'role',
             headerName: 'CHỨC NĂNG',
-            width: 280,
+            width: 320,
             renderCell: (params) => {
                 return (
                     <div className="cellWithExpired">
@@ -87,7 +95,7 @@ function AdminPage() {
         {
             field: 'actions',
             headerName: 'HÀNH ĐỘNG',
-            width: 230,
+            width: 120,
             renderCell: (params) => {
                 return (
                     <div className="adminActionContainer">
@@ -111,6 +119,7 @@ function AdminPage() {
                                     if (window.confirm('Bạn có chắc chắn muốn xóa người dùng này!!!!')) {
                                         deleteUser(params.row.id).then((res) => {
                                             if (res) {
+                                                setModifyUser(!modifyUser);
                                                 alert('Xóa người dùng thành công!!');
                                             }
                                         });
@@ -142,7 +151,7 @@ function AdminPage() {
         {
             field: 'name',
             headerName: 'TÊN CÔNG TY',
-            width: 150,
+            width: 250,
             renderCell: (params) => {
                 return (
                     <div className="cellWithName">
@@ -214,7 +223,7 @@ function AdminPage() {
         {
             field: 'actions',
             headerName: 'HÀNH ĐỘNG',
-            width: 190,
+            width: 90,
             renderCell: (params) => {
                 return (
                     <div className="adminActionContainer">
@@ -238,6 +247,7 @@ function AdminPage() {
                                     if (window.confirm('Bạn có chắc chắn muốn xóa công ty này!!!!')) {
                                         deleteCompany(params.row.id).then((res) => {
                                             if (res) {
+                                                setModifyCompany(!modifyCompany);
                                                 alert('Xóa công ty thành công!!');
                                             }
                                         });
@@ -269,7 +279,7 @@ function AdminPage() {
         {
             field: 'name',
             headerName: 'TÊN CÔNG VIỆC',
-            width: 150,
+            width: 350,
             renderCell: (params) => {
                 return (
                     <div className="cellWithName">
@@ -281,11 +291,11 @@ function AdminPage() {
         {
             field: 'createdAt',
             headerName: 'NGÀY TẠO',
-            width: 150,
+            width: 100,
             renderCell: (params) => {
                 return (
                     <div className="cellWithCreatedAt">
-                        <span>{params.row.createdAt}</span>
+                        <span>{params.row.createdAt.slice(0, 10)}</span>
                     </div>
                 );
             },
@@ -293,11 +303,11 @@ function AdminPage() {
         {
             field: 'expired',
             headerName: 'NGÀY HẾT HẠN',
-            width: 150,
+            width: 100,
             renderCell: (params) => {
                 return (
                     <div className="cellWithExpired">
-                        <span>{params.row.expired}</span>
+                        <span>{params.row.expired.slice(0, 10)}</span>
                     </div>
                 );
             },
@@ -305,7 +315,7 @@ function AdminPage() {
         {
             field: 'salary',
             headerName: 'LƯƠNG',
-            width: 150,
+            width: 120,
             renderCell: (params) => {
                 return (
                     <div className="cellWithSalary">
@@ -353,7 +363,7 @@ function AdminPage() {
         {
             field: 'actions',
             headerName: 'HÀNH ĐỘNG',
-            width: 200,
+            width: 120,
             renderCell: (params) => {
                 return (
                     <div className="adminActionContainer">
@@ -377,7 +387,99 @@ function AdminPage() {
                                     if (window.confirm('Bạn có chắc chắn muốn xóa công việc này!!!!')) {
                                         deleteJob(params.row.id).then((res) => {
                                             if (res) {
+                                                setModifyJob(!modifyJob);
                                                 alert('Xóa công việc thành công!!');
+                                            }
+                                        });
+                                    }
+                                }}
+                            >
+                                <FontAwesomeIcon icon={faTrashCan} />
+                            </button>
+                        </div>
+                    </div>
+                );
+            },
+        },
+    ];
+
+    const CVsColumns = [
+        {
+            field: 'cv_id',
+            headerName: 'ID',
+            width: 50,
+            renderCell: (params) => {
+                return (
+                    <div className="cellWithId">
+                        <span>{params.row.cv_id}</span>
+                    </div>
+                );
+            },
+        },
+        {
+            field: 'job_name',
+            headerName: 'TÊN CÔNG VIỆC',
+            width: 250,
+            renderCell: (params) => {
+                return (
+                    <div className="cellWithName">
+                        <span>{params.row.job_name}</span>
+                    </div>
+                );
+            },
+        },
+        {
+            field: 'companyId',
+            headerName: 'COMPANY ID',
+            width: 100,
+            renderCell: (params) => {
+                return (
+                    <div className="cellWithId">
+                        <span>{params.row.companyId}</span>
+                    </div>
+                );
+            },
+        },
+        {
+            field: 'url',
+            headerName: 'URL',
+            width: 550,
+            renderCell: (params) => {
+                return (
+                    <div className="cellWithName">
+                        <a href={params.row.url + params.row.cv_id}>{params.row.url + params.row.cv_id}</a>
+                    </div>
+                );
+            },
+        },
+        {
+            field: 'cv_createdAt',
+            headerName: 'NGÀY TẠO',
+            width: 100,
+            renderCell: (params) => {
+                return (
+                    <div className="cellWithCreatedAt">
+                        <span>{params.row.cv_createdAt.slice(0, 10)}</span>
+                    </div>
+                );
+            },
+        },
+        {
+            field: 'actions',
+            headerName: 'HÀNH ĐỘNG',
+            width: 100,
+            renderCell: (params) => {
+                return (
+                    <div className="adminActionContainer">
+                        <div className="adminActionContainer_delete">
+                            <button
+                                className="adminActionContainer_delete_btn"
+                                onClick={() => {
+                                    if (window.confirm('Bạn có chắc chắn muốn xóa cv này!!!!')) {
+                                        deleteCV(params.row.cv_id).then((res) => {
+                                            if (res) {
+                                                setModifyCV(!modifyCV);
+                                                alert('Xóa cv thành công!!');
                                             }
                                         });
                                     }
@@ -402,7 +504,10 @@ function AdminPage() {
         getCompanies(1, 999).then((res) => {
             setCompaniesRows(res);
         });
-    }, []);
+        getCVs(1, 999).then((res) => {
+            setCVsRows(res);
+        });
+    }, [modifyUser, modifyCompany, modifyJob, modifyCV]);
 
     return (
         <div className="admin">
@@ -416,7 +521,9 @@ function AdminPage() {
                                     setActiveTabSidebar1(!activeTabSidebar1);
                                     activeTabSidebar2
                                         ? setActiveTabSidebar2(!activeTabSidebar2)
-                                        : setActiveTabSidebar3(!activeTabSidebar3);
+                                        : activeTabSidebar3
+                                        ? setActiveTabSidebar3(!activeTabSidebar3)
+                                        : setActiveTabSidebar4(!activeTabSidebar4);
                                 }}
                             >
                                 <FontAwesomeIcon icon={faUser} />
@@ -437,7 +544,9 @@ function AdminPage() {
                                     setActiveTabSidebar2(!activeTabSidebar2);
                                     activeTabSidebar1
                                         ? setActiveTabSidebar1(!activeTabSidebar1)
-                                        : setActiveTabSidebar3(!activeTabSidebar3);
+                                        : activeTabSidebar3
+                                        ? setActiveTabSidebar3(!activeTabSidebar3)
+                                        : setActiveTabSidebar4(!activeTabSidebar4);
                                 }}
                             >
                                 <FontAwesomeIcon icon={faBuilding} />
@@ -458,7 +567,9 @@ function AdminPage() {
                                     setActiveTabSidebar3(!activeTabSidebar3);
                                     activeTabSidebar1
                                         ? setActiveTabSidebar1(!activeTabSidebar1)
-                                        : setActiveTabSidebar2(!activeTabSidebar2);
+                                        : activeTabSidebar2
+                                        ? setActiveTabSidebar2(!activeTabSidebar2)
+                                        : setActiveTabSidebar4(!activeTabSidebar4);
                                 }}
                             >
                                 <FontAwesomeIcon icon={faAddressBook} />
@@ -469,6 +580,31 @@ function AdminPage() {
                                 <li className="admin-wrapper__sidebar-tab__item-active">
                                     <FontAwesomeIcon icon={faAddressBook} />
                                     <span className="admin-wrapper__sidebar-tab__item-icon">Quản lý công việc</span>
+                                </li>
+                            ))}
+
+                        {(!activeTabSidebar4 && (
+                            <li
+                                className="admin-wrapper__sidebar-tab__item"
+                                onClick={() => {
+                                    setActiveTabSidebar4(!activeTabSidebar4);
+                                    activeTabSidebar1
+                                        ? setActiveTabSidebar1(!activeTabSidebar1)
+                                        : activeTabSidebar2
+                                        ? setActiveTabSidebar2(!activeTabSidebar2)
+                                        : setActiveTabSidebar3(!activeTabSidebar3);
+                                }}
+                            >
+                                <FontAwesomeIcon icon={faAddressCard} />
+                                <span className="admin-wrapper__sidebar-tab__item-icon">Quản lý sơ yếu lý lịch</span>
+                            </li>
+                        )) ||
+                            (activeTabSidebar4 && (
+                                <li className="admin-wrapper__sidebar-tab__item-active">
+                                    <FontAwesomeIcon icon={faAddressCard} />
+                                    <span className="admin-wrapper__sidebar-tab__item-icon">
+                                        Quản lý sơ yếu lý lịch
+                                    </span>
                                 </li>
                             ))}
                     </ul>
@@ -529,6 +665,18 @@ function AdminPage() {
                             />
                         </>
                     )}
+                    {activeTabSidebar4 && (
+                        <>
+                            <DataGrid
+                                className="datagrid"
+                                rows={CVsRows}
+                                columns={CVsColumns}
+                                getRowId={(row) => row.cv_id + row.url}
+                                pageSize={9}
+                                rowsPerPageOptions={[9]}
+                            />
+                        </>
+                    )}
                 </div>
                 {showAddRecordCompany && (
                     <CreateCompanyForm
@@ -542,6 +690,8 @@ function AdminPage() {
                         location=""
                         showAddRecordCompany={showAddRecordCompany}
                         setShowAddRecordCompany={setShowAddRecordCompany}
+                        modifyCompany={modifyCompany}
+                        setModifyCompany={setModifyCompany}
                     />
                 )}
                 {showEditFormCompany && (
@@ -555,6 +705,8 @@ function AdminPage() {
                         location={selectedRowCompany.location}
                         showAddRecordCompany={showEditFormCompany}
                         setShowAddRecordCompany={setShowEditCompany}
+                        modifyCompany={modifyCompany}
+                        setModifyCompany={setModifyCompany}
                     />
                 )}
                 {showAddRecordUser && (
@@ -565,6 +717,8 @@ function AdminPage() {
                         password=""
                         showAddRecordUser={showAddRecordUser}
                         setShowAddRecordUser={setShowAddRecordUser}
+                        modifyUser={modifyUser}
+                        setModifyUser={setModifyUser}
                     />
                 )}
                 {showEditRecordUser && (
@@ -574,6 +728,8 @@ function AdminPage() {
                         avatar={selectedRowUser.avatar}
                         showEditRecordUser={showEditRecordUser}
                         setShowEditRecordUser={setShowEditRecordUser}
+                        modifyUser={modifyUser}
+                        setModifyUser={setModifyUser}
                     />
                 )}
                 {showEditRecordJob && (
@@ -589,6 +745,8 @@ function AdminPage() {
                         experience={selectedRowJob.experience}
                         showAddRecordJob={showEditRecordJob}
                         setShowAddRecordJob={setShowEditRecordJob}
+                        modifyJob={modifyJob}
+                        setModifyJob={setModifyJob}
                     />
                 )}
             </div>

@@ -16,6 +16,7 @@ import CompanyDetailPage from './pages/CompanyDetailPage';
 import CreateJobPage from './pages/CreateJobPage';
 import ChatUserPage from './pages/ChatUserPage';
 import ChatCompanyPage from './pages/ChatCompanyPage';
+import CompanyManagementPage from './pages/CompanyManagementPage';
 
 function App() {
     return (
@@ -114,6 +115,15 @@ function App() {
                         }
                     />
                     <Route path="/company/create-job" element={<CreateJobPage />} />
+
+                    <Route
+                        path="/company/management/:id"
+                        element={
+                            <DefaultLayout>
+                                <CompanyManagementPage />
+                            </DefaultLayout>
+                        }
+                    />
                 </Route>
             </Routes>
         </React.Fragment>

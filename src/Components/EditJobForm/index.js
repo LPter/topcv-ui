@@ -10,7 +10,6 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { faPeopleGroup } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import './EditJobForm.scss';
 import { updateJob } from '../../Api/job-api';
 
@@ -26,9 +25,9 @@ function EditJobForm({
     experience,
     showAddRecordJob,
     setShowAddRecordJob,
+    modifyJob,
+    setModifyJob,
 }) {
-    const navigate = useNavigate();
-
     const [usernameInput, setUsernameInput] = useState(name);
     const [expiredInput, setExpiredInput] = useState(expired);
     const [salaryInput, setSalaryInput] = useState(salary);
@@ -57,7 +56,7 @@ function EditJobForm({
                 experienceInput,
             ).then((res) => {
                 if (res) {
-                    navigate('/admin');
+                    setModifyJob(!modifyJob);
                     alert('Tạo công ty thành công!!');
                 }
             });

@@ -2,13 +2,18 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faShield, faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons';
 // import { faEye, faEyeSlash, faShield, faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import './EditUserForm.scss';
 import { updateProfile } from '../../Api/user-api';
 
-function EditUserForm({ id, username, password, showEditRecordUser, setShowEditRecordUser }) {
-    const navigate = useNavigate();
-
+function EditUserForm({
+    id,
+    username,
+    password,
+    showEditRecordUser,
+    setShowEditRecordUser,
+    modifyUser,
+    setModifyUser,
+}) {
     const [passwordType, setPasswordType] = useState('password');
 
     const [usernameInput, setUsernameInput] = useState(username);
@@ -32,7 +37,7 @@ function EditUserForm({ id, username, password, showEditRecordUser, setShowEditR
         if (window.confirm('Bạn có chắc chắc muốn lưu thay đổi này!!')) {
             updateProfile({ id: id, username: usernameInput, password: passwordInput }).then((res) => {
                 if (res) {
-                    navigate('/admin');
+                    setModifyUser(!modifyUser);
                     alert('Chỉnh sửa người dùng thành công!!');
                 }
             });

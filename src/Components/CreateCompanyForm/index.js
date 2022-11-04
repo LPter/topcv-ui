@@ -12,7 +12,6 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { createCompany } from '../../Api/company-api';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import './CreateCompanyForm.scss';
 
 function CreateCompanyForm({
@@ -26,9 +25,9 @@ function CreateCompanyForm({
     location,
     showAddRecordCompany,
     setShowAddRecordCompany,
+    modifyCompany,
+    setModifyCompany,
 }) {
-    const navigate = useNavigate();
-
     const [passwordType, setPasswordType] = useState('password');
 
     const [usernameInput, setUsernameInput] = useState(name);
@@ -70,7 +69,7 @@ function CreateCompanyForm({
             locationInput,
         ).then((res) => {
             if (res) {
-                navigate('/admin');
+                setModifyCompany(!modifyCompany);
                 alert('Tạo công ty thành công!!');
             }
         });

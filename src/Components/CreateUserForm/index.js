@@ -2,13 +2,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { faEye, faEyeSlash, faShield, faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import './CreateUserForm.scss';
 import { signup } from '../../Api/user-api';
 
-function CreateUserForm({ name, email, password, showAddRecordUser, setShowAddRecordUser }) {
-    const navigate = useNavigate();
-
+function CreateUserForm({ name, email, password, showAddRecordUser, setShowAddRecordUser, modifyUser, setModifyUser }) {
     const [passwordType, setPasswordType] = useState('password');
 
     const [usernameInput, setUsernameInput] = useState(name);
@@ -36,7 +33,7 @@ function CreateUserForm({ name, email, password, showAddRecordUser, setShowAddRe
         e.preventDefault();
         signup(usernameInput, emailInput, passwordInput).then((res) => {
             if (res) {
-                navigate('/admin');
+                setModifyUser(!modifyUser);
                 alert('Tạo người dùng thành công!!');
             }
         });
