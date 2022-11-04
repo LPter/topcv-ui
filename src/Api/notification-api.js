@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export const getNotification = async () => {
     try {
-        const { data } = await axios.get('http://localhost:8000/notification/me', {
+        const { data } = await axios.get('https://topcv-api.herokuapp.com/notification/me', {
             headers: {
                 Authorization: 'Bearer ' + localStorage.getItem('token'),
             },
@@ -15,7 +15,7 @@ export const getNotification = async () => {
 
 export const deleteNotification = async (notificationId) => {
     try {
-        const { data } = await axios.delete(`http://localhost:8000/notification/${notificationId}`, {
+        const { data } = await axios.delete(`https://topcv-api.herokuapp.com/notification/${notificationId}`, {
             headers: {
                 Authorization: 'Bearer ' + localStorage.getItem('token'),
             },

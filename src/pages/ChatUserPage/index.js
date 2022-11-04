@@ -10,7 +10,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
-const socket = io.connect('http://localhost:8000', {
+const socket = io.connect('https://topcv-api.herokuapp.com', {
     extraHeaders: {
         authorization: 'Bearer ' + localStorage.getItem('token'),
     },

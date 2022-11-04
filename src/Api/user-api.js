@@ -7,7 +7,7 @@ export const login = async (email, password) => {
     });
 
     try {
-        const { data } = await axios.post('http://localhost:8000/users/login', payLoad);
+        const { data } = await axios.post('https://topcv-api.herokuapp.com/users/login', payLoad);
         localStorage.setItem('token', data.access_token);
         return data;
     } catch (error) {
@@ -23,7 +23,7 @@ export const loginOAuth = async (email, username, avatar) => {
     });
 
     try {
-        const { data } = await axios.post('http://localhost:8000/users/login-oauth', payload);
+        const { data } = await axios.post('https://topcv-api.herokuapp.com/users/login-oauth', payload);
         localStorage.setItem('token', data.access_token);
         return data;
     } catch (error) {
@@ -33,7 +33,7 @@ export const loginOAuth = async (email, username, avatar) => {
 
 export const getUsers = async (page, limit) => {
     try {
-        const { data } = await axios.get(`http://localhost:8000/users?page=${page}&limit=${limit}`);
+        const { data } = await axios.get(`https://topcv-api.herokuapp.com/users?page=${page}&limit=${limit}`);
         return data;
     } catch (error) {
         error.response.data?.message && alert(error.response.data?.message);
@@ -42,7 +42,7 @@ export const getUsers = async (page, limit) => {
 
 export const getUser = async (idUser) => {
     try {
-        const { data } = await axios.get(`http://localhost:8000/users/${idUser}`);
+        const { data } = await axios.get(`https://topcv-api.herokuapp.com/users/${idUser}`);
         return data;
     } catch (error) {
         error.response.data?.message && alert(error.response.data?.message);
@@ -57,7 +57,7 @@ export const signup = async (username, email, password) => {
     });
 
     try {
-        const { data } = await axios.post('http://localhost:8000/users/signup', payload);
+        const { data } = await axios.post('https://topcv-api.herokuapp.com/users/signup', payload);
         return data;
     } catch (error) {
         error.response.data?.message && alert(error.response.data?.message);
@@ -65,7 +65,7 @@ export const signup = async (username, email, password) => {
 };
 export const getCurrentUser = async () => {
     try {
-        const { data } = await axios.get('http://localhost:8000/users/me', {
+        const { data } = await axios.get('https://topcv-api.herokuapp.com/users/me', {
             headers: {
                 Authorization: 'Bearer ' + localStorage.getItem('token'),
             },
@@ -86,13 +86,13 @@ export const updateProfile = async (profileUploaded, avatar) => {
         if (avatar) {
             let data = new FormData();
             data.append('file', avatar);
-            await axios.post('http://localhost:8000/users/upload-avatar', data, {
+            await axios.post('https://topcv-api.herokuapp.com/users/upload-avatar', data, {
                 headers: {
                     Authorization: 'Bearer ' + localStorage.getItem('token'),
                 },
             });
         }
-        const { data } = await axios.put(`http://localhost:8000/users/${profileUploaded.id}`, payload, {
+        const { data } = await axios.put(`https://topcv-api.herokuapp.com/users/${profileUploaded.id}`, payload, {
             headers: {
                 Authorization: 'Bearer ' + localStorage.getItem('token'),
             },
@@ -110,7 +110,7 @@ export const sendForgotPasswordMail = async (forgotEmail) => {
     });
 
     try {
-        const { data } = await axios.post('http://localhost:8000/users/forgot', payload);
+        const { data } = await axios.post('https://topcv-api.herokuapp.com/users/forgot', payload);
         return data;
     } catch (error) {
         error.response.data?.message && alert(error.response.data?.message);
@@ -119,7 +119,7 @@ export const sendForgotPasswordMail = async (forgotEmail) => {
 
 export const deleteUser = async (userId) => {
     try {
-        const { data } = await axios.delete(`http://localhost:8000/users/${userId}`, {
+        const { data } = await axios.delete(`https://topcv-api.herokuapp.com/users/${userId}`, {
             headers: {
                 Authorization: 'Bearer ' + localStorage.getItem('token'),
             },
