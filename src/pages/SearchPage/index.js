@@ -104,6 +104,7 @@ function SearchPage() {
                                     company={job.company.name}
                                     salary={job.salary}
                                     address={job.company.address}
+                                    idCompany={job?.company?.id}
                                 />
                             ))}
                     </div>
