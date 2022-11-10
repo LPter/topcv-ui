@@ -166,7 +166,7 @@ function SignUpPage() {
                                 </a>
                                 <span> của chúng tôi</span>
                             </div>
-                            <button className={cx('form-login__input-group__button')}>Đăng nhập</button>
+                            <button className={cx('form-login__input-group__button')}>Đăng kí</button>
                         </div>
                     </form>
                 </div>
@@ -174,7 +174,7 @@ function SignUpPage() {
                 <div className={cx('form-auth')}>
                     <div>
                         <span>Bạn đã có tài khoản?</span>
-                        <a href="http://localhost:3000/login" className={cx('form-auth__signup')}>
+                        <a href="https://topcv-clone.netlify.app/login" className={cx('form-auth__signup')}>
                             Đăng nhập ngay
                         </a>
                     </div>
