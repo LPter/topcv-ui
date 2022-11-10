@@ -193,7 +193,7 @@ function CompanyManagementPage() {
             renderCell: (params) => {
                 return (
                     <div className="cellWithName">
-                        <a href={params.row.url}>{params.row.url}</a>
+                        <a href={params.row.url + params.row.cv_id}>{params.row.url + params.row.cv_id}</a>
                     </div>
                 );
             },
