@@ -78,17 +78,6 @@ function Header() {
                         <>
                             <li className={cx('navbar-right__item')}>
                                 <button
-                                    onClick={() => {
-                                        navigate('/company');
-                                    }}
-                                    type="button"
-                                    className={cx('navbar-right__item-buttonRecruit')}
-                                >
-                                    Đăng tuyển dụng & Tìm hồ sơ
-                                </button>
-                            </li>
-                            <li className={cx('navbar-right__item')}>
-                                <button
                                     onClick={handleLoginUserBtn}
                                     type="button"
                                     className={cx('navbar-right__item-buttonOutline')}
