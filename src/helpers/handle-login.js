@@ -14,7 +14,7 @@ export const handleLogin = (email, password, setAuth, navigate, location) => {
                 if (res) {
                     getCurrentUser().then((currentUser) => {
                         setAuth(currentUser);
-                        navigate(from, { replace: true });
+                        navigate(`/${currentUser?.role}`);
                     });
                 }
                 // console.log(from);
