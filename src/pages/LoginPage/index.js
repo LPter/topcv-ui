@@ -140,15 +140,9 @@ function LoginPage() {
                                             if (res) {
                                                 getCurrentUser().then((currentUser) => {
                                                     setAuth(currentUser);
-                                                    if (auth?.role === 'admin') {
-                                                        navigate('/admin');
-                                                    } else {
-                                                        navigate('/');
-                                                    }
                                                 });
                                             }
                                         });
-                                        console.log(user.picture);
                                     }}
                                     onError={() => {
                                         alert('Login Failed');
