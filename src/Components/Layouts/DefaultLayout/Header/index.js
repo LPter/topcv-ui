@@ -53,22 +53,22 @@ function Header() {
             <div className={cx('navbar')}>
                 <ul className={cx('navbar-left')}>
                     <li className={cx('navbar-left__item')}>
-                        <a className={cx('navbar-left__item-link')} href="/">
+                        <a className={cx('navbar-left__item-link')} href={`/${auth?.role}`}>
                             Việc làm
                         </a>
                     </li>
                     <li className={cx('navbar-left__item')}>
-                        <a className={cx('navbar-left__item-link')} href="/">
+                        <a className={cx('navbar-left__item-link')} href={`/${auth?.role}`}>
                             Hồ sơ & CV
                         </a>
                     </li>
                     <li className={cx('navbar-left__item')}>
-                        <a className={cx('navbar-left__item-link')} href="/">
+                        <a className={cx('navbar-left__item-link')} href={`/${auth?.role}`}>
                             Công ty
                         </a>
                     </li>
                     <li className={cx('navbar-left__item')}>
-                        <a className={cx('navbar-left__item-link')} href="/">
+                        <a className={cx('navbar-left__item-link')} href={`/${auth?.role}`}>
                             Công cụ
                         </a>
                     </li>
@@ -98,7 +98,7 @@ function Header() {
                             </li>
                             <li className={cx('navbar-right__item')}>
                                 <a
-                                    href="http://localhost:3000/sign-up"
+                                    href="https://topcv-clone.netlify.app/sign-up"
                                     type="button"
                                     className={cx('navbar-right__item-buttonPrimary')}
                                 >

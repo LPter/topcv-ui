@@ -17,7 +17,6 @@ export const handleLogin = (email, password, setAuth, navigate, location) => {
                         navigate(`/${currentUser?.role}`);
                     });
                 }
-                // console.log(from);
             });
         })
         .catch((err) => {

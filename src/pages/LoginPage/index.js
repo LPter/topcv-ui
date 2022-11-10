@@ -140,6 +140,7 @@ function LoginPage() {
                                             if (res) {
                                                 getCurrentUser().then((currentUser) => {
                                                     setAuth(currentUser);
+                                                    navigate(`/${currentUser?.role}`);
                                                 });
                                             }
                                         });
@@ -157,7 +158,7 @@ function LoginPage() {
                     <div className={cx('form-auth')}>
                         <div>
                             <span>Bạn chưa có tài khoản?</span>
-                            <a href="http://localhost:3000/sign-up" className={cx('form-auth__signup')}>
+                            <a href="https://topcv-clone.netlify.app/sign-up" className={cx('form-auth__signup')}>
                                 Đăng ký ngay
                             </a>
                         </div>
